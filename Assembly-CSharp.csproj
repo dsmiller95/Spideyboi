@@ -66,6 +66,7 @@
     <Compile Include="Assets\GraphManager.cs" />
     <Compile Include="Assets\INode.cs" />
     <Compile Include="Assets\NodeBehavior.cs" />
+    <Compile Include="Assets\SpiderCrawly.cs" />
     <None Include="Assets\link.xml" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/source/SpiderBoi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

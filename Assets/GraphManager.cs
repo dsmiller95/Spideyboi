@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GraphManager : MonoBehaviour
 {
-    public IMutableUndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>> Graph {
+    public UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>> Graph {
         get; private set;
     }
 
@@ -19,11 +19,6 @@ public class GraphManager : MonoBehaviour
     private void Awake()
     {
         connectionRenderers = new List<LineRenderer>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         Graph = new UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>>();
         var v1 = CreateNewNode();
         var v2 = CreateNewNode();
@@ -37,6 +32,11 @@ public class GraphManager : MonoBehaviour
 
         Graph.AddVertexRange(new[] { v1, v2, v3, v4 });
         Graph.AddEdgeRange(new[] { e1, e2, e3, e4 });
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
     }
 
     private INode<NodeBehavior> CreateNewNode()
