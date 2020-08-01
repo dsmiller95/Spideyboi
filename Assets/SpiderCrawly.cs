@@ -6,8 +6,11 @@ using UnityEngine;
 
 namespace Assets
 {
-
-
+    public enum TraversalSide
+    {
+        LEFTHAND,
+        RIGHTHAND
+    }
     public class SpiderCrawly : MonoBehaviour
     {
         public GraphManager graphManager;
@@ -15,27 +18,23 @@ namespace Assets
         public float movementSpeed = 1;
         public float sideOffset = 1;
 
-        public UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>> graph => graphManager.Graph;
+        public UndirectedGraph<NodeBehavior, Connection<NodeBehavior>> graph => graphManager.Graph;
 
-        private INode<NodeBehavior> lastNode;
+        private NodeBehavior lastNode;
         private Connection<NodeBehavior> currentConnection;
         private float distanceAlongConnection = 0f;
-        private TraversalSide whichSide = TraversalSide.INSIDE;
+        public TraversalSide whichSide { get; private set; } = TraversalSide.LEFTHAND;
 
         private IList<ISpideyAction> actions;
         private int indexInSpideyActions;
 
-        enum TraversalSide
-        {
-            INSIDE,
-            OUTSIDE
-        }
 
         private void Start()
         {
             actions = new ISpideyAction[]
             {
                 new CreateNodeSpideyAction(),
+                new DoNothingSpideyAction(),
                 new DoNothingSpideyAction(),
             };
             indexInSpideyActions = 0;
@@ -56,9 +55,9 @@ namespace Assets
             return false;
         }
 
-        private void AdvanceSpideyActions(INode<NodeBehavior> current, INode<NodeBehavior> previous)
+        private void AdvanceSpideyActions(NodeBehavior current, NodeBehavior previous, NodeBehavior tentativeNext)
         {
-            actions[indexInSpideyActions].DoAction(graphManager, current, previous);
+            actions[indexInSpideyActions].DoAction(this, current, previous, tentativeNext);
             indexInSpideyActions = (indexInSpideyActions + 1) % actions.Count;
         }
 
@@ -70,15 +69,15 @@ namespace Assets
             {
                 return null;
             }
-            var lastConnectionAngle = GetAngleOfConnection(currentNode, lastNode);
+            var lastConnectionAngle = currentNode.GetRadianAngleOfConnectionTo(lastNode);
 
             var otherConnections = connections
                 .Where(connection => connection != currentConnection) //!connection.IsAdjacent(lastNode))
                 .Select(connection =>
                 {
-                    float angle = GetAngleOfConnection(currentNode, connection.GetOtherVertex(currentNode));
+                    float angle = currentNode.GetRadianAngleOfConnectionTo(connection.GetOtherVertex(currentNode));
                     angle = angle - lastConnectionAngle;
-                    if (whichSide == TraversalSide.INSIDE)
+                    if (whichSide == TraversalSide.LEFTHAND)
                     {
                         angle = -angle;
                     }
@@ -93,40 +92,28 @@ namespace Assets
                 .Select(data => data.connection);
 
             return otherConnections.FirstOrDefault() ?? currentConnection;
-            //lastNode = currentNode;
-        }
-
-        /// <summary>
-        /// Gets the angle of a connection if it runs from origin to other
-        /// </summary>
-        /// <param name="connection"></param>
-        /// <param name="otherNode"></param>
-        /// <returns></returns>
-        private float GetAngleOfConnection(INode<NodeBehavior> originNode, INode<NodeBehavior> otherNode)
-        {
-            Vector2 delta = originNode.GetData().transform.position - otherNode.GetData().transform.position;
-
-            return (Mathf.Atan2(delta.y, delta.x) + Mathf.PI * 2) % (Mathf.PI * 2);
         }
 
 
         private void TraverseNext()
         {
-            var currentNode = currentConnection.GetOtherVertex(lastNode);
-            AdvanceSpideyActions(currentNode, lastNode);
+            var tentativeNext = PickNextConnection();
 
-            var next = PickNextConnection();
+            var currentNode = currentConnection.GetOtherVertex(lastNode);
+            AdvanceSpideyActions(currentNode, lastNode, tentativeNext.GetOtherVertex(currentNode));
+
+            tentativeNext = PickNextConnection();
 
             lastNode = currentNode;
-            currentConnection = next;
+            currentConnection = tentativeNext;
         }
 
         public void Update()
         {
             distanceAlongConnection += Time.deltaTime * movementSpeed;
 
-            Vector2 a = lastNode.GetData().transform.position;
-            Vector2 b = currentConnection.GetOtherVertex(lastNode).GetData().transform.position;
+            Vector2 a = lastNode.transform.position;
+            Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
             var diff = b - a;
 
             if (diff.magnitude <= distanceAlongConnection)
@@ -141,10 +128,10 @@ namespace Assets
             transform.position = a + scaledDiff;
             switch (whichSide)
             {
-                case TraversalSide.INSIDE:
+                case TraversalSide.LEFTHAND:
                     transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
                     break;
-                case TraversalSide.OUTSIDE:
+                case TraversalSide.RIGHTHAND:
                     transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
                     break;
             }

@@ -5,7 +5,7 @@ namespace Assets.SpideyActions
 {
     public class DoNothingSpideyAction : ISpideyAction
     {
-        public void DoAction(GraphManager graph, INode<NodeBehavior> currentNode, INode<NodeBehavior> lastNode)
+        public void DoAction(SpiderCrawly crawly, NodeBehavior currentNode, NodeBehavior lastNode, NodeBehavior tentativeNextNode)
         {
         }
     }

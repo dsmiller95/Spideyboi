@@ -2,20 +2,16 @@
 
 namespace Assets
 {
-    public interface INode<T>
-    {
-        T GetData();
-    }
 
-    public class Connection<T> : IEdge<INode<T>>
+    public class Connection<T> : IEdge<T>
     {
-        public Connection(INode<T> source, INode<T> target)
+        public Connection(T source, T target)
         {
             Source = source;
             Target = target;
         }
 
-        public INode<T> Source { get; set; }
-        public INode<T> Target { get; set; }
+        public T Source { get; set; }
+        public T Target { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GraphManager : MonoBehaviour
 {
-    public UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>> Graph {
+    public UndirectedGraph<NodeBehavior, Connection<NodeBehavior>> Graph {
         get; private set;
     }
 
@@ -15,17 +15,18 @@ public class GraphManager : MonoBehaviour
     public LineRenderer edgeRendererPrefab;
 
     public float edgeColliderOffsetInEdges = 0.7f;
+    public float defaultConnectionLength = 10f;
 
     private IList<LineRenderer> connectionRenderers;
 
     private void Awake()
     {
         connectionRenderers = new List<LineRenderer>();
-        Graph = new UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>>();
-        var v1 = CreateNewNode("one");
-        var v2 = CreateNewNode("two");
+        Graph = new UndirectedGraph<NodeBehavior, Connection<NodeBehavior>>();
+        var v1 = CreateNewNodeWithWobble("one");
+        var v2 = CreateNewNodeWithWobble("two");
         //var v3 = CreateNewNode("three");
-        var v4 = CreateNewNode("four");
+        var v4 = CreateNewNodeWithWobble("four");
 
         var e1 = new Connection<NodeBehavior>(v1, v2);
         var e2 = new Connection<NodeBehavior>(v1, v4);
@@ -41,13 +42,52 @@ public class GraphManager : MonoBehaviour
     {
     }
 
-    public INode<NodeBehavior> CreateNewNode(string extraName = "", Vector3 averageCenter = default, float variance = 3f)
+    public NodeBehavior CreateNewNode(string extraName = "")
     {
         var behavior = Instantiate(defaultNodePrefab, transform).GetComponent<NodeBehavior>();
         behavior.name += extraName;
-        behavior.transform.position = averageCenter + new Vector3(Random.Range(-variance, variance), Random.Range(-variance, variance));
         return behavior;
     }
+    private NodeBehavior CreateNewNodeWithWobble(string extraName = "", Vector3 averageCenter = default, float variance = 3f)
+    {
+        var newNode = CreateNewNode(extraName);
+        newNode.transform.position = averageCenter + new Vector3(Random.Range(-variance, variance), Random.Range(-variance, variance));
+        return newNode;
+    }
+    public NodeBehavior CreateNewNodeBetweenTwoConnectionsAtBase(NodeBehavior origin, NodeBehavior a, NodeBehavior b, float distanceFromOrigin, bool isLeftHandSide)
+    {
+        Vector2 originVector = origin.transform.position;
+        Vector2 aVect = a.transform.position;
+        Vector2 trueDirection;
+        if(a == b)
+        {
+            trueDirection = (originVector - aVect).normalized * distanceFromOrigin;
+        }else
+        {
+            Vector2 bVect = b.transform.position;
+            aVect -= originVector;
+            bVect -= originVector;
+
+            var diff = Vector2.SignedAngle(aVect, bVect);
+            if (isLeftHandSide && diff > 0)
+            {
+                diff = diff - 360;
+            }
+            else if (!isLeftHandSide && diff < 0)
+            {
+                diff = diff + 360;
+            }
+            var halfway = diff / 2;
+
+            trueDirection = aVect.normalized.Rotate(halfway) * distanceFromOrigin;
+        }
+        var newLocation = originVector + trueDirection;
+
+        var behavior = CreateNewNode();
+        behavior.transform.position = newLocation;
+        return behavior;
+    }
+
     private LineRenderer CreateConnection()
     {
         return Instantiate(edgeRendererPrefab, transform).GetComponent<LineRenderer>();
@@ -55,8 +95,8 @@ public class GraphManager : MonoBehaviour
 
     private void AlignLineToConnection(Connection<NodeBehavior> connection, LineRenderer lineRenderer)
     {
-        var source = connection.Source.GetData();
-        var target = connection.Target.GetData();
+        var source = connection.Source;
+        var target = connection.Target;
 
         Vector2 sourceVect = source.transform.position;
         Vector2 targetVect = target.transform.position;

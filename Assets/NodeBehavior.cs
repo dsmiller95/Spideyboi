@@ -1,22 +1,33 @@
 ﻿using QuikGraph;
-using QuikGraph.Algorithms.VertexColoring;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Assets
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class NodeBehavior: MonoBehaviour, INode<NodeBehavior>
+    public class NodeBehavior : MonoBehaviour
     {
         public float targetConnectionLength = 5f;
         public float connectionSpringConstant = 1f;
         public float repulsionConstant = -1f;
 
-        private IMutableUndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>> graph { get => GetComponentInParent<GraphManager>().Graph; }
+        private IMutableUndirectedGraph<NodeBehavior, Connection<NodeBehavior>> graph => GetComponentInParent<GraphManager>().Graph;
 
+
+        /// <summary>
+        /// Gets the angle of a connection if it runs from origin to other
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="otherNode"></param>
+        /// <returns></returns>
+        public float GetRadianAngleOfConnectionTo(NodeBehavior otherNode)
+        {
+            Vector2 delta = transform.position - otherNode.transform.position;
+
+            return (Mathf.Atan2(delta.y, delta.x) + Mathf.PI * 2) % (Mathf.PI * 2);
+        }
 
         private void Update()
         {
@@ -26,7 +37,7 @@ namespace Assets
                 .Where(x => x != this)
                 .Select(x => x.transform.position - myPos);
             var allConnectedNodes = graph.AdjacentEdges(this)
-                .Select(connection => connection.GetOtherVertex(this).GetData())
+                .Select(connection => connection.GetOtherVertex(this))
                 .Select(x => x.transform.position - myPos);
 
             var repulsionForce = GetInverseSquaredForce(allOtherNodePositionsDiffs, repulsionConstant);
@@ -52,11 +63,6 @@ namespace Assets
             return positionDeltas
                 .Select(vectorDiff => vectorDiff.normalized * forceCalc(vectorDiff))
                 .Aggregate((force1, force2) => force1 + force2);
-        }
-
-        public NodeBehavior GetData()
-        {
-            return this;
         }
     }
 }
