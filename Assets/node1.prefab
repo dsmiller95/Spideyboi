@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6474075135137751311}
   - component: {fileID: 6474075135137751308}
   - component: {fileID: 7110063468010932921}
+  - component: {fileID: 5628152774726125096}
   - component: {fileID: 782374864141697319}
   m_Layer: 0
   m_Name: node1
@@ -95,9 +96,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac7aab73022e964bb4a9eccd7da58d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetConnectionLength: 5
+  targetConnectionLength: 10
   connectionSpringConstant: 1
   repulsionConstant: -1
+--- !u!58 &5628152774726125096
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6474075135137751309}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.56
 --- !u!50 &782374864141697319
 Rigidbody2D:
   serializedVersion: 4

@@ -13,25 +13,27 @@ public class GraphManager : MonoBehaviour
 
     public NodeBehavior defaultNodePrefab;
     public LineRenderer edgeRendererPrefab;
-    
+
+    public float edgeColliderOffsetInEdges = 0.7f;
+
     private IList<LineRenderer> connectionRenderers;
 
     private void Awake()
     {
         connectionRenderers = new List<LineRenderer>();
         Graph = new UndirectedGraph<INode<NodeBehavior>, Connection<NodeBehavior>>();
-        var v1 = CreateNewNode();
-        var v2 = CreateNewNode();
-        var v3 = CreateNewNode();
-        var v4 = CreateNewNode();
+        var v1 = CreateNewNode("one");
+        var v2 = CreateNewNode("two");
+        //var v3 = CreateNewNode("three");
+        var v4 = CreateNewNode("four");
 
         var e1 = new Connection<NodeBehavior>(v1, v2);
         var e2 = new Connection<NodeBehavior>(v1, v4);
         var e3 = new Connection<NodeBehavior>(v2, v4);
-        var e4 = new Connection<NodeBehavior>(v2, v3);
+        //var e4 = new Connection<NodeBehavior>(v2, v3);
 
-        Graph.AddVertexRange(new[] { v1, v2, v3, v4 });
-        Graph.AddEdgeRange(new[] { e1, e2, e3, e4 });
+        Graph.AddVertexRange(new[] { v1, v2, v4 });
+        Graph.AddEdgeRange(new[] { e1, e2, e3, });
     }
 
     // Start is called before the first frame update
@@ -39,10 +41,11 @@ public class GraphManager : MonoBehaviour
     {
     }
 
-    private INode<NodeBehavior> CreateNewNode()
+    public INode<NodeBehavior> CreateNewNode(string extraName = "", Vector3 averageCenter = default, float variance = 3f)
     {
         var behavior = Instantiate(defaultNodePrefab, transform).GetComponent<NodeBehavior>();
-        behavior.transform.position += new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        behavior.name += extraName;
+        behavior.transform.position = averageCenter + new Vector3(Random.Range(-variance, variance), Random.Range(-variance, variance));
         return behavior;
     }
     private LineRenderer CreateConnection()
@@ -55,8 +58,22 @@ public class GraphManager : MonoBehaviour
         var source = connection.Source.GetData();
         var target = connection.Target.GetData();
 
-        lineRenderer.SetPosition(0, source.transform.position);
-        lineRenderer.SetPosition(1, target.transform.position);
+        Vector2 sourceVect = source.transform.position;
+        Vector2 targetVect = target.transform.position;
+
+        lineRenderer.SetPosition(0, sourceVect);
+        lineRenderer.SetPosition(1, targetVect);
+
+        var edge = lineRenderer.GetComponent<EdgeCollider2D>();
+        if(edge != null)
+        {
+            var offset = edgeColliderOffsetInEdges * (sourceVect - targetVect).normalized;
+
+            var targetWithOffset = targetVect + offset;
+            var sourceWithOffset = sourceVect - offset;
+
+            edge.points = new[] { sourceWithOffset, targetWithOffset };
+        }
     }
 
     private void UpdateConnections()

@@ -67,7 +67,10 @@
     <Compile Include="Assets\INode.cs" />
     <Compile Include="Assets\NodeBehavior.cs" />
     <Compile Include="Assets\SpiderCrawly.cs" />
-    <None Include="Assets\link.xml" />
+    <Compile Include="Assets\SpideyActions\CreateNode.cs" />
+    <Compile Include="Assets\SpideyActions\DoNothing.cs" />
+    <Compile Include="Assets\SpideyActions\SpideyAction.cs" />
+    <Compile Include="Assets\Vector2Extension.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/source/SpiderBoi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
