@@ -30,8 +30,6 @@ public class CameraMovementController : MonoBehaviour
 
         if (Input.GetMouseButton(2))
         {
-            Debug.Log("mousey");
-
             var translate = lastMouse - Input.mousePosition;
             camera.transform.position += dragPanSensitivity * translate * Time.deltaTime;
         }

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace Assets.UI.Draggable
 {
-    [RequireComponent(typeof(LayoutElement))]
     public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public static GameObject itemBeingDragged;
@@ -20,7 +19,11 @@ namespace Assets.UI.Draggable
         public void OnBeginDrag(PointerEventData eventData)
         {
             itemBeingDragged = gameObject;
-            GetComponent<LayoutElement>().ignoreLayout = true;
+            var layout = GetComponent<LayoutElement>();
+            if (layout != null)
+            {
+                layout.ignoreLayout = true;
+            }
             // TODO: why was this here??
             //GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
@@ -41,9 +44,12 @@ namespace Assets.UI.Draggable
         public void OnEndDrag(PointerEventData eventData)
         {
             itemBeingDragged = null;
-            //GetComponent<CanvasGroup>().blocksRaycasts = true;
-            GetComponent<LayoutElement>().ignoreLayout = false;
-            parentDragZone?.ItemDroppedOnto(this);
+            var layout = GetComponent<LayoutElement>();
+            if (layout != null)
+            {
+                layout.ignoreLayout = false;
+            }
+            parentDragZone?.ItemDroppedOnto(this, eventData);
         }
 
         #endregion

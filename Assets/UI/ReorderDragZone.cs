@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace Assets.UI.Draggable
 {
     public delegate void OrderChanged();
-    public class DragZone : MonoBehaviour
+    public class ReorderDragZone : DragZone
     {
         public GameObject divider;
         public event OrderChanged orderingChanged;
@@ -22,11 +22,9 @@ namespace Assets.UI.Draggable
 
         }
 
-        public void ElementDragged(DragItem element, PointerEventData eventData)
+        public override void ElementDragged(DragItem element, PointerEventData eventData)
         {
-            var dragPosition = transform.InverseTransformPoint(eventData.position);
-
-            int newDividerIndex = GetNewDividerIndex(dragPosition, eventData.position);
+            int newDividerIndex = GetNewDividerIndex(eventData.position);
             if (newDividerIndex < 0)
             {
                 if (divider.activeSelf)
@@ -46,7 +44,7 @@ namespace Assets.UI.Draggable
             }
         }
 
-        private int GetNewDividerIndex(Vector2 dragPosition, Vector2 dragPositionWorldSpace)
+        private int GetNewDividerIndex(Vector2 dragPositionWorldSpace)
         {
             var validDraggableElements = transform.Cast<RectTransform>()
                 .Where(x => x.gameObject != divider && x.gameObject != DragItem.itemBeingDragged)
@@ -115,7 +113,7 @@ namespace Assets.UI.Draggable
             return dropRect.Overlaps(thisRect.rect);
         }
 
-        public void ItemDroppedOnto(DragItem dropped)
+        public override void ItemDroppedOnto(DragItem dropped, PointerEventData eventData)
         {
             if (IsValidDrap(dropped))
             {

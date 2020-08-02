@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CameraMovementController.cs" />
-    <Compile Include="Assets\DragSource.cs" />
     <Compile Include="Assets\Eventing\CustomEventEmitter.cs" />
     <Compile Include="Assets\Eventing\CustomEventListener.cs" />
     <Compile Include="Assets\Eventing\CustomEventSystem.cs" />
@@ -80,8 +79,13 @@
     <Compile Include="Assets\SpideyWeb\NodeBehavior.cs" />
     <Compile Include="Assets\SpideyWeb\Resetable.cs" />
     <Compile Include="Assets\UI\DragItem.cs" />
-    <Compile Include="Assets\UI\DragZone.cs" />
+    <Compile Include="Assets\UI\DragSource.cs" />
+    <Compile Include="Assets\UI\DropSlot.cs" />
+    <Compile Include="Assets\UI\DropSlotDragZone.cs" />
+    <Compile Include="Assets\UI\EndDropSlot.cs" />
+    <Compile Include="Assets\UI\IDragZone.cs" />
     <Compile Include="Assets\UI\PlayButton.cs" />
+    <Compile Include="Assets\UI\ReorderDragZone.cs" />
     <Compile Include="Assets\Vector2Extension.cs" />
     <Compile Include="Assets\WinZone.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

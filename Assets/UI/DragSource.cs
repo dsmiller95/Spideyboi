@@ -1,6 +1,5 @@
-﻿using Assets.UI.Draggable;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.UI;
+using Assets.UI.Draggable;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,13 +11,13 @@ public class DragSource : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private DragItem currentlySpawnedDragItem;
