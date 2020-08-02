@@ -2,6 +2,7 @@
 using QuikGraph;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets
@@ -18,12 +19,15 @@ namespace Assets
         public float movementSpeed = 1;
         public float sideOffset = 1;
 
-        public UndirectedGraph<NodeBehavior, Connection<NodeBehavior>> graph => graphManager.Graph;
+        public bool isMoving = false;
+        public NodeBehavior lastNode;
+        public Connection currentConnection;
+        public TraversalSide whichSide = TraversalSide.LEFTHAND;
+        public float distanceAlongConnection = 0f;
 
-        private NodeBehavior lastNode;
-        private Connection<NodeBehavior> currentConnection;
-        private float distanceAlongConnection = 0f;
-        public TraversalSide whichSide { get; private set; } = TraversalSide.LEFTHAND;
+
+        public UndirectedGraph<NodeBehavior, Connection> graph => graphManager.Graph;
+
 
         private IList<ISpideyAction> actions;
         private int indexInSpideyActions;
@@ -31,17 +35,66 @@ namespace Assets
 
         private void Start()
         {
-            actions = new ISpideyAction[]
+            //actions = new ISpideyAction[]
+            //{
+            //    new CreateNodeSpideyAction(),
+            //    new DoNothingSpideyAction(),
+            //    new DoNothingSpideyAction(),
+            //};
+            //indexInSpideyActions = 0;
+
+            //var vertices = graph.Vertices.ToList();
+            //lastNode = vertices[Random.Range(0, vertices.Count)];
+            //PickRandomConnection();
+        }
+
+
+        public void Update()
+        {
+            if (isMoving)
             {
-                new CreateNodeSpideyAction(),
-                new DoNothingSpideyAction(),
-                new DoNothingSpideyAction(),
-            };
+                distanceAlongConnection += Time.deltaTime * movementSpeed;
+            }
+
+            if(lastNode == null || currentConnection == null)
+            {
+                return;
+            }
+            Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
+
+            if(distanceAlongConnection >= 1)
+            {
+                TraverseNext();
+                distanceAlongConnection = 0;
+                transform.position = b;
+                return;
+            }
+            Vector2 a = lastNode.transform.position;
+            var diff = b - a;
+
+            var scaledDiff = diff * distanceAlongConnection;
+            transform.position = a + scaledDiff;
+            switch (whichSide)
+            {
+                case TraversalSide.LEFTHAND:
+                    transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
+                    break;
+                case TraversalSide.RIGHTHAND:
+                    transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
+                    break;
+            }
+        }
+
+        public void StartMoving(IEnumerable<ISpideyAction> actions)
+        {
+            this.actions = actions.ToList();
             indexInSpideyActions = 0;
 
-            var vertices = graph.Vertices.ToList();
-            lastNode = vertices[Random.Range(0, vertices.Count)];
-            PickRandomConnection();
+            isMoving = true;
+        }
+        public void StopMoving()
+        {
+            isMoving = false;
         }
 
         private bool PickRandomConnection()
@@ -61,7 +114,7 @@ namespace Assets
             indexInSpideyActions = (indexInSpideyActions + 1) % actions.Count;
         }
 
-        private Connection<NodeBehavior> PickNextConnection()
+        private Connection PickNextConnection()
         {
             var currentNode = currentConnection.GetOtherVertex(lastNode);
             var connections = graph.AdjacentEdges(currentNode).ToList();
@@ -108,34 +161,6 @@ namespace Assets
             currentConnection = tentativeNext;
         }
 
-        public void Update()
-        {
-            distanceAlongConnection += Time.deltaTime * movementSpeed;
-
-            Vector2 a = lastNode.transform.position;
-            Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
-            var diff = b - a;
-
-            if (diff.magnitude <= distanceAlongConnection)
-            {
-                TraverseNext();
-                distanceAlongConnection = 0;
-                transform.position = b;
-                return;
-            }
-
-            var scaledDiff = diff.normalized * distanceAlongConnection;
-            transform.position = a + scaledDiff;
-            switch (whichSide)
-            {
-                case TraversalSide.LEFTHAND:
-                    transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
-                    break;
-                case TraversalSide.RIGHTHAND:
-                    transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
-                    break;
-            }
-        }
 
     }
 }

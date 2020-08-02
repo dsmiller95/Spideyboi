@@ -13,7 +13,7 @@ namespace Assets
         public float connectionSpringConstant = 1f;
         public float repulsionConstant = -1f;
 
-        private IMutableUndirectedGraph<NodeBehavior, Connection<NodeBehavior>> graph => GetComponentInParent<GraphManager>().Graph;
+        private IMutableUndirectedGraph<NodeBehavior, Connection> graph => GetComponentInParent<GraphManager>().Graph;
 
 
         /// <summary>

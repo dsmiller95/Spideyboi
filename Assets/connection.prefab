@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3427469780260971434}
   - component: {fileID: 3427469780260971435}
   - component: {fileID: 1058250287467086550}
+  - component: {fileID: 7177624188490327251}
   m_Layer: 0
   m_Name: connection
   m_TagString: Untagged
@@ -145,5 +146,20 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0.12
   m_Points:
-  - {x: -2.82, y: 3.05}
-  - {x: 1.62, y: -1}
+  - {x: -2.3028333, y: 2.57826}
+  - {x: 1.1028333, y: -0.5282601}
+--- !u!114 &7177624188490327251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427469780260971428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996a5c40d8f83cc4da53b9184f90e685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceForInspector: {fileID: 0}
+  targetForInspector: {fileID: 0}
+  edgeColliderOffsetInEdges: 0.7
