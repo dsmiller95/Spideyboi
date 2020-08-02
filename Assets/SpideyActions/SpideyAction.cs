@@ -1,7 +1,9 @@
-﻿namespace Assets.SpideyActions
+﻿using Assets.Utilities;
+
+namespace Assets.SpideyActions
 {
     public interface ISpideyAction
     {
-        void DoAction(SpiderCrawly crawly, NodeBehavior currentNode, NodeBehavior lastNode, NodeBehavior tentativeNextNode);
+        GenericStateHandler<SpiderCrawly> StateHandlerFactory(GenericStateHandler<SpiderCrawly> returnToOnSuccess);
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Assets
@@ -9,11 +10,10 @@ namespace Assets
     [RequireComponent(typeof(Rigidbody2D))]
     public class NodeBehavior : MonoBehaviour
     {
-        public float targetConnectionLength = 5f;
-        public float connectionSpringConstant = 1f;
         public float repulsionConstant = -1f;
 
-        private IMutableUndirectedGraph<NodeBehavior, Connection> graph => GetComponentInParent<GraphManager>().Graph;
+        private GraphManager GraphManager => GetComponentInParent<GraphManager>();
+        private IMutableUndirectedGraph<NodeBehavior, Connection> graph => GraphManager.Graph;
 
 
         /// <summary>
@@ -29,6 +29,15 @@ namespace Assets
             return (Mathf.Atan2(delta.y, delta.x) + Mathf.PI * 2) % (Mathf.PI * 2);
         }
 
+        public SpringJoint2D AddSpringJoint(NodeBehavior other)
+        {
+            var joint = gameObject.AddComponent<SpringJoint2D>();
+            joint.connectedBody = other.GetComponent<Rigidbody2D>();
+            joint.autoConfigureDistance = false;
+
+            return joint;
+        }
+
         private void Update()
         {
             var myPos = transform.position;
@@ -41,10 +50,10 @@ namespace Assets
                 .Select(x => x.transform.position - myPos);
 
             var repulsionForce = GetInverseSquaredForce(allOtherNodePositionsDiffs, repulsionConstant);
-            var attractionForce = GetSpringForce(allConnectedNodes, connectionSpringConstant, targetConnectionLength);
+            //var attractionForce = GetSpringForce(allConnectedNodes, connectionSpringConstant, targetConnectionLength);
 
             var body = GetComponent<Rigidbody2D>();
-            Vector2 force = repulsionForce + attractionForce;
+            Vector2 force = repulsionForce;// + attractionForce;
             body.AddForce(force);
         }
 

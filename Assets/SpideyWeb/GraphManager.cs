@@ -14,28 +14,15 @@ public class GraphManager : MonoBehaviour
     public NodeBehavior defaultNodePrefab;
     public Connection edgePrefab;
 
-    public float defaultConnectionLength = 10f;
+    public float defaultConnectionLength = 5f;
+    public float initialConnectionLength = 1f;
 
     private void Awake()
     {
-        Debug.Log("awakening");
         Graph = new UndirectedGraph<NodeBehavior, Connection>();
 
         Graph.AddVertexRange(GetComponentsInChildren<NodeBehavior>());
         Graph.AddEdgeRange(GetComponentsInChildren<Connection>());
-
-        //var v1 = CreateNewNodeWithWobble("one");
-        //var v2 = CreateNewNodeWithWobble("two");
-        ////var v3 = CreateNewNode("three");
-        //var v4 = CreateNewNodeWithWobble("four");
-
-        //var e1 = new Connection<NodeBehavior>(v1, v2);
-        //var e2 = new Connection<NodeBehavior>(v1, v4);
-        //var e3 = new Connection<NodeBehavior>(v2, v4);
-        ////var e4 = new Connection<NodeBehavior>(v2, v3);
-
-        //Graph.AddVertexRange(new[] { v1, v2, v4 });
-        //Graph.AddEdgeRange(new[] { e1, e2, e3, });
     }
 
     // Start is called before the first frame update
@@ -100,9 +87,10 @@ public class GraphManager : MonoBehaviour
         return CreateConnection(a, b);
     }
 
-    public Connection CreateConnection(NodeBehavior a, NodeBehavior b)
+    public Connection CreateConnection(NodeBehavior a, NodeBehavior b, float targetDistance = -1)
     {
         var connection = Instantiate(edgePrefab, transform).GetComponent<Connection>();
+        connection.targetDistance = targetDistance;
         connection.Source = a;
         connection.Target = b;
         Graph.AddEdge(connection);
@@ -113,6 +101,5 @@ public class GraphManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //UpdateConnections();
     }
 }

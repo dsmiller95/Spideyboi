@@ -70,9 +70,15 @@
     <Compile Include="Assets\Eventing\EventToggle.cs" />
     <Compile Include="Assets\SceneRestore.cs" />
     <Compile Include="Assets\SpiderCrawly.cs" />
+    <Compile Include="Assets\SpideyActions\AsyncStateMachine.cs" />
     <Compile Include="Assets\SpideyActions\CreateNodeSpideyAction.cs" />
+    <Compile Include="Assets\SpideyActions\CreateNodeStateHandler.cs" />
     <Compile Include="Assets\SpideyActions\DoNothingSpideyAction.cs" />
+    <Compile Include="Assets\SpideyActions\GenericStateHandler.cs" />
+    <Compile Include="Assets\SpideyActions\MovingStateHandler.cs" />
     <Compile Include="Assets\SpideyActions\SpideyAction.cs" />
+    <Compile Include="Assets\SpideyActions\WaitForValidStateHandler.cs" />
+    <Compile Include="Assets\SpideyActions\WaitingStateHandler.cs" />
     <Compile Include="Assets\SpideyWeb\Connection.cs" />
     <Compile Include="Assets\SpideyWeb\GraphManager.cs" />
     <Compile Include="Assets\SpideyWeb\GraphManagerEditor.cs" />

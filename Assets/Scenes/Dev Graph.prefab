@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3791562835200588155}
   - component: {fileID: 3791562835200588154}
   m_Layer: 0
-  m_Name: Graph
+  m_Name: Dev Graph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,6 +55,7 @@ MonoBehaviour:
   edgePrefab: {fileID: 7177624188490327251, guid: 041edce802b36d04eb9b3ecc0f3ba6b2,
     type: 3}
   defaultConnectionLength: 10
+  initialConnectionLength: 1
 --- !u!1001 &3791562833657868966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172,6 +173,11 @@ PrefabInstance:
       propertyPath: targetForInspector
       value: 
       objectReference: {fileID: 6211118382646711373}
+    - target: {fileID: 7177624188490327251, guid: 041edce802b36d04eb9b3ecc0f3ba6b2,
+        type: 3}
+      propertyPath: frequency
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 041edce802b36d04eb9b3ecc0f3ba6b2, type: 3}
 --- !u!4 &1949645033453342988 stripped
@@ -297,6 +303,11 @@ PrefabInstance:
       propertyPath: targetForInspector
       value: 
       objectReference: {fileID: 6211118382646711373}
+    - target: {fileID: 7177624188490327251, guid: 041edce802b36d04eb9b3ecc0f3ba6b2,
+        type: 3}
+      propertyPath: frequency
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 041edce802b36d04eb9b3ecc0f3ba6b2, type: 3}
 --- !u!4 &1949645033708103706 stripped
@@ -521,6 +532,11 @@ PrefabInstance:
       propertyPath: targetForInspector
       value: 
       objectReference: {fileID: 6211118382090536107}
+    - target: {fileID: 7177624188490327251, guid: 041edce802b36d04eb9b3ecc0f3ba6b2,
+        type: 3}
+      propertyPath: frequency
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 041edce802b36d04eb9b3ecc0f3ba6b2, type: 3}
 --- !u!4 &1949645034022528166 stripped

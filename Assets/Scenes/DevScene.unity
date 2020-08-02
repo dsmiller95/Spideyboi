@@ -368,6 +368,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Graph
       objectReference: {fileID: 0}
+    - target: {fileID: 3791562835200588154, guid: 1b0989caf7126084c9bcc352446b7f93,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3791562835200588155, guid: 1b0989caf7126084c9bcc352446b7f93,
         type: 3}
       propertyPath: m_LocalPosition.x

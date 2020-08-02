@@ -1,8 +1,11 @@
 ﻿using Assets.SpideyActions;
+using Assets.Utilities;
 using QuikGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets
@@ -24,6 +27,7 @@ namespace Assets
         public NodeBehavior lastNode;
         public Connection currentConnection;
         public TraversalSide whichSide = TraversalSide.LEFTHAND;
+        [Range(0, 1)]
         public float distanceAlongConnection = 0f;
 
 
@@ -33,57 +37,33 @@ namespace Assets
         private IList<ISpideyAction> actions;
         private int indexInSpideyActions;
 
-        private IList<WinZone> winZones;
+        public IList<WinZone> winZones;
 
+        private AsyncStateMachine<SpiderCrawly> stateMachine;
+
+        private void Awake()
+        {
+            stateMachine = new AsyncStateMachine<SpiderCrawly>(new MovingStateHandler());
+        }
 
         private void Start()
         {
             winZones = FindObjectsOfType<WinZone>();
         }
 
-
         public void Update()
         {
-            if (isMoving)
+            myUpdate();
+        }
+        async void myUpdate()
+        {
+            try
             {
-                foreach(var winZone in winZones)
-                {
-                    if (winZone.TryTriggerwin(this))
-                    {
-                        this.StopMoving();
-                        return;
-                    }
-                }
-
-                distanceAlongConnection += Time.deltaTime * movementSpeed;
+                await stateMachine.update(this);
             }
-
-            if(lastNode == null || currentConnection == null)
+            catch
             {
-                return;
-            }
-            Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
-
-            if(distanceAlongConnection >= 1)
-            {
-                TraverseNext();
-                distanceAlongConnection = 0;
-                transform.position = b;
-                return;
-            }
-            Vector2 a = lastNode.transform.position;
-            var diff = b - a;
-
-            var scaledDiff = diff * distanceAlongConnection;
-            transform.position = a + scaledDiff;
-            switch (whichSide)
-            {
-                case TraversalSide.LEFTHAND:
-                    transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
-                    break;
-                case TraversalSide.RIGHTHAND:
-                    transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
-                    break;
+                throw;
             }
         }
 
@@ -99,29 +79,14 @@ namespace Assets
             isMoving = false;
         }
 
-        public void ResetToOrigin()
+        public ISpideyAction GetNextAction()
         {
-            throw new NotImplementedException();
-        }
-
-        private bool PickRandomConnection()
-        {
-            var connections = graph.AdjacentEdges(lastNode).ToList();
-            if (connections.Count > 0)
-            {
-                currentConnection = connections[UnityEngine.Random.Range(0, connections.Count)];
-                return true;
-            }
-            return false;
-        }
-
-        private void AdvanceSpideyActions(NodeBehavior current, NodeBehavior previous, NodeBehavior tentativeNext)
-        {
-            actions[indexInSpideyActions].DoAction(this, current, previous, tentativeNext);
+            var nextAction = actions[indexInSpideyActions];
             indexInSpideyActions = (indexInSpideyActions + 1) % actions.Count;
+            return nextAction;
         }
 
-        private Connection PickNextConnection()
+        public Connection PickNextConnection()
         {
             var currentNode = currentConnection.GetOtherVertex(lastNode);
             var connections = graph.AdjacentEdges(currentNode).ToList();
@@ -132,7 +97,7 @@ namespace Assets
             var lastConnectionAngle = currentNode.GetRadianAngleOfConnectionTo(lastNode);
 
             var otherConnections = connections
-                .Where(connection => connection != currentConnection) //!connection.IsAdjacent(lastNode))
+                .Where(connection => connection != currentConnection)
                 .Select(connection =>
                 {
                     float angle = currentNode.GetRadianAngleOfConnectionTo(connection.GetOtherVertex(currentNode));
@@ -153,21 +118,5 @@ namespace Assets
 
             return otherConnections.FirstOrDefault() ?? currentConnection;
         }
-
-
-        private void TraverseNext()
-        {
-            var tentativeNext = PickNextConnection();
-
-            var currentNode = currentConnection.GetOtherVertex(lastNode);
-            AdvanceSpideyActions(currentNode, lastNode, tentativeNext.GetOtherVertex(currentNode));
-
-            tentativeNext = PickNextConnection();
-
-            lastNode = currentNode;
-            currentConnection = tentativeNext;
-        }
-
-
     }
 }
