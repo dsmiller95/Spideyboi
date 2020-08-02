@@ -1,18 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1591491053688729420
+--- !u!114 &6028391334186473146
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8014463465075350745}
+  m_GameObject: {fileID: 7884122228211264071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f88bbd943aead47a3f95b90c36e5bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cce11e1f788cbc4aa25fb0a46849359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &7045970844082508238
+--- !u!1001 &7177416523163543376
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 1076722229957725463, guid: 9687d71ef146ec443ae21488f69c3e4d,
         type: 3}
       propertyPath: m_Name
-      value: Spidey Butt Icon
+      value: Switch side Icon
       objectReference: {fileID: 0}
     - target: {fileID: 2571531891541699162, guid: 9687d71ef146ec443ae21488f69c3e4d,
         type: 3}
@@ -133,7 +133,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: aad3f405acc6d6945b0dc39a1224870e,
+      objectReference: {fileID: 21300000, guid: 90761f4539f3b89498d4ff7a9072f439,
         type: 3}
     - target: {fileID: 8586252671388729197, guid: 9687d71ef146ec443ae21488f69c3e4d,
         type: 3}
@@ -163,9 +163,9 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 116694598402731346, guid: 9687d71ef146ec443ae21488f69c3e4d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9687d71ef146ec443ae21488f69c3e4d, type: 3}
---- !u!1 &8014463465075350745 stripped
+--- !u!1 &7884122228211264071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1076722229957725463, guid: 9687d71ef146ec443ae21488f69c3e4d,
     type: 3}
-  m_PrefabInstance: {fileID: 7045970844082508238}
+  m_PrefabInstance: {fileID: 7177416523163543376}
   m_PrefabAsset: {fileID: 0}

@@ -1,21 +1,21 @@
 ﻿using QuikGraph;
 using System.Threading.Tasks;
-using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 
 namespace Assets.SpideyActions.SpideyStates
 {
-    public class DragWeb : GenericStateHandler<SpiderCrawly>
+    public class SwitchSide : GenericStateHandler<SpiderCrawly>
     {
         private GenericStateHandler<SpiderCrawly> returnToOnsuccess;
-        public DragWeb(GenericStateHandler<SpiderCrawly> returnToOnsuccess)
+        public SwitchSide(GenericStateHandler<SpiderCrawly> returnToOnsuccess)
         {
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
         public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
         {
-            //do some shit;
-            return this;
+            crawly.SwitchSide();
+            return returnToOnsuccess;
         }
 
 

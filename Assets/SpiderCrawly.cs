@@ -28,13 +28,19 @@ namespace Assets
         public float distanceAlongConnection = 0f;
 
         public NodeBehavior currentDraggingConnection;
-        public LineRenderer draggingLineRenderer;
+        public ConnectionRenderer draggingLineRenderer;
 
         public UndirectedGraph<NodeBehavior, Connection> graph => graphManager.Graph;
 
 
         private IList<ISpideyAction> actions;
         private int indexInSpideyActions;
+        /// <summary>
+        /// A list of connections which should be ignored when choosing the next connection to travel on
+        /// Used when attaching a web, it makes more intutive sense to keep moving after connecting
+        /// TODO?
+        /// </summary>
+        //private IList<Connection> extraIgnoreConnections;
 
         public IList<WinZone> winZones;
 
@@ -84,6 +90,19 @@ namespace Assets
             var nextAction = actions[indexInSpideyActions];
             indexInSpideyActions = (indexInSpideyActions + 1) % actions.Count;
             return nextAction;
+        }
+
+        public void SwitchSide()
+        {
+            switch (whichSide)
+            {
+                case TraversalSide.LEFTHAND:
+                    whichSide = TraversalSide.RIGHTHAND;
+                    break;
+                case TraversalSide.RIGHTHAND:
+                    whichSide = TraversalSide.LEFTHAND;
+                    break;
+            }
         }
 
         public Connection PickNextConnection()
