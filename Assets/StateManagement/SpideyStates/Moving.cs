@@ -26,27 +26,10 @@ namespace Assets.SpideyActions.SpideyStates
 
                 data.distanceAlongConnection += Time.deltaTime * data.movementSpeed;
             }
-            Vector2 b = data.currentConnection.GetOtherVertex(data.lastNode).transform.position;
-
             if (data.distanceAlongConnection >= 1)
             {
                 var nextState = data.GetNextAction();
                 return Task.FromResult(nextState.StateHandlerFactory(this));
-            }
-
-            Vector2 a = data.lastNode.transform.position;
-            var diff = b - a;
-
-            var scaledDiff = diff * data.distanceAlongConnection;
-            data.transform.position = a + scaledDiff;
-            switch (data.whichSide)
-            {
-                case TraversalSide.LEFTHAND:
-                    data.transform.position = (Vector2)data.transform.position + (data.sideOffset * diff.normalized.Rotate(90));
-                    break;
-                case TraversalSide.RIGHTHAND:
-                    data.transform.position = (Vector2)data.transform.position + (-data.sideOffset * diff.normalized.Rotate(90));
-                    break;
             }
             return Task.FromResult<GenericStateHandler<SpiderCrawly>>(this);
         }
@@ -56,7 +39,8 @@ namespace Assets.SpideyActions.SpideyStates
             if (data.distanceAlongConnection >= 1)
             {
                 var currentNode = data.currentConnection.GetOtherVertex(data.lastNode);
-                var nextConnection = data.PickNextConnection();
+                var nextConnection = data.PickNextConnection(data.extraIgnoreConnections);
+                data.extraIgnoreConnections.Clear();
                 data.lastNode = currentNode;
                 data.currentConnection = nextConnection;
 

@@ -1,6 +1,7 @@
 ﻿using Assets.SpideyActions;
 using Assets.SpideyActions.SpideyStates;
 using QuikGraph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -38,9 +39,8 @@ namespace Assets
         /// <summary>
         /// A list of connections which should be ignored when choosing the next connection to travel on
         /// Used when attaching a web, it makes more intutive sense to keep moving after connecting
-        /// TODO?
         /// </summary>
-        //private IList<Connection> extraIgnoreConnections;
+        public IList<Connection> extraIgnoreConnections;
 
         public IList<WinZone> winZones;
 
@@ -48,6 +48,7 @@ namespace Assets
 
         private void Awake()
         {
+            extraIgnoreConnections = new List<Connection>();
             stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
         }
 
@@ -56,9 +57,31 @@ namespace Assets
             winZones = FindObjectsOfType<WinZone>();
         }
 
+        private bool defaultPositioning = true;
         public void Update()
         {
             myUpdate();
+
+            if (defaultPositioning)
+            {
+                var myDistance = Math.Min(distanceAlongConnection, 1);
+
+                Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
+                Vector2 a = lastNode.transform.position;
+                var diff = b - a;
+
+                var scaledDiff = diff * myDistance;
+                transform.position = a + scaledDiff;
+                switch (whichSide)
+                {
+                    case TraversalSide.LEFTHAND:
+                        transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
+                        break;
+                    case TraversalSide.RIGHTHAND:
+                        transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
+                        break;
+                }
+            }
         }
         async void myUpdate()
         {
@@ -66,7 +89,7 @@ namespace Assets
             {
                 await stateMachine.update(this);
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.LogError(e);
                 throw;
@@ -105,7 +128,7 @@ namespace Assets
             }
         }
 
-        public Connection PickNextConnection()
+        public Connection PickNextConnection(IList<Connection> extraExcludedConnections = null)
         {
             var currentNode = currentConnection.GetOtherVertex(lastNode);
             var connections = graph.AdjacentEdges(currentNode).ToList();
@@ -116,7 +139,13 @@ namespace Assets
             var lastConnectionAngle = currentNode.GetRadianAngleOfConnectionTo(lastNode);
 
             var otherConnections = connections
-                .Where(connection => connection != currentConnection)
+                .Where(connection => connection != currentConnection);
+            if (extraExcludedConnections != null)
+            {
+                otherConnections = otherConnections
+                    .Where(connecton => !extraExcludedConnections.Contains(connecton));
+            }
+            otherConnections = otherConnections
                 .Select(connection =>
                 {
                     float angle = currentNode.GetRadianAngleOfConnectionTo(connection.GetOtherVertex(currentNode));

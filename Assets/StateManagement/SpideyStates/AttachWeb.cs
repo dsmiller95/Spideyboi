@@ -38,6 +38,8 @@ namespace Assets.SpideyActions.SpideyStates
                 connection.targetDistance = Mathf.Lerp(currentConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
             }
 
+            crawly.extraIgnoreConnections.Add(connection);
+
 
             return returnToOnsuccess;
 
