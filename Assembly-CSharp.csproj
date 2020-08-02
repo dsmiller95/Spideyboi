@@ -68,6 +68,12 @@
     <Compile Include="Assets\Eventing\CustomEventListener.cs" />
     <Compile Include="Assets\Eventing\CustomEventSystem.cs" />
     <Compile Include="Assets\Eventing\EventToggle.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Clipper.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\ConformingSpline.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\GeometryCollider.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\LegacyCollider.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\SimpleDraw.cs" />
+    <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Sprinkler.cs" />
     <Compile Include="Assets\SceneRestore.cs" />
     <Compile Include="Assets\SpiderCrawly.cs" />
     <Compile Include="Assets\SpideyWeb\Connection.cs" />
