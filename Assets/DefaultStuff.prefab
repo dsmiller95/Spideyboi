@@ -293,6 +293,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5141113354768710276, guid: 3f91a52c117744b4799f66fce8890fb2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7491485184950422436, guid: 3f91a52c117744b4799f66fce8890fb2,
         type: 3}
       propertyPath: m_AnchorMin.y

@@ -319,6 +319,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinZone
       objectReference: {fileID: 0}
+    - target: {fileID: 1118046116939376396, guid: 7a0c4a2fbed09184c8d1c0619de09ba1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a0c4a2fbed09184c8d1c0619de09ba1, type: 3}
 --- !u!1 &595642700

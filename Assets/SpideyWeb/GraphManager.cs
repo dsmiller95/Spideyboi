@@ -1,5 +1,7 @@
 ﻿using Assets;
 using QuikGraph;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -19,10 +21,18 @@ public class GraphManager : MonoBehaviour
 
     private void Awake()
     {
+
         Graph = new UndirectedGraph<NodeBehavior, Connection>();
 
         Graph.AddVertexRange(GetComponentsInChildren<NodeBehavior>());
         Graph.AddEdgeRange(GetComponentsInChildren<Connection>());
+
+        Graph.EdgeAdded += Graph_EdgeAdded;
+    }
+
+    private void Graph_EdgeAdded(Connection edge)
+    {
+        FindObjectOfType<SpiderCrawly>()?.CheckIfWin();
     }
 
     // Start is called before the first frame update

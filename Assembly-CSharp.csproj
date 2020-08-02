@@ -80,6 +80,7 @@
     <Compile Include="Assets\SpideyWeb\ConnectionRenderer.cs" />
     <Compile Include="Assets\SpideyWeb\GraphManager.cs" />
     <Compile Include="Assets\SpideyWeb\GraphManagerEditor.cs" />
+    <Compile Include="Assets\SpideyWeb\GraphTopologyEquator.cs" />
     <Compile Include="Assets\SpideyWeb\NodeBehavior.cs" />
     <Compile Include="Assets\SpideyWeb\Resetable.cs" />
     <Compile Include="Assets\StateManagement\Actions\AttachWebSpideyAction.cs" />

@@ -340,26 +340,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 722745476650338480}
     m_Modifications:
-    - target: {fileID: 782374864141697319, guid: 03a75a622b621f64caa2567c206107b3,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6474075135137751308, guid: 03a75a622b621f64caa2567c206107b3,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.5754717
-      objectReference: {fileID: 0}
-    - target: {fileID: 6474075135137751308, guid: 03a75a622b621f64caa2567c206107b3,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.5754717
-      objectReference: {fileID: 0}
-    - target: {fileID: 6474075135137751308, guid: 03a75a622b621f64caa2567c206107b3,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.5754717
-      objectReference: {fileID: 0}
     - target: {fileID: 6474075135137751309, guid: 03a75a622b621f64caa2567c206107b3,
         type: 3}
       propertyPath: m_Name
@@ -460,6 +440,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
         type: 3}
+      propertyPath: goalTopology.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
       propertyPath: graphManager
       value: 
       objectReference: {fileID: 3914589124998624113, guid: bc0b48bf18cd85540a90202f8c9c0ca6,
@@ -489,6 +474,31 @@ PrefabInstance:
       propertyPath: whichSide
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
+      propertyPath: goalTopology.Array.data[0].target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
+      propertyPath: goalTopology.Array.data[1].source
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
+      propertyPath: goalTopology.Array.data[1].target
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
+      propertyPath: goalTopology.Array.data[2].source
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441478101127997070, guid: 9d9f92b633965b042b405a1db8343e93,
+        type: 3}
+      propertyPath: originActual
+      value: 
+      objectReference: {fileID: 7542315667317995588}
     - target: {fileID: 6441478101127997071, guid: 9d9f92b633965b042b405a1db8343e93,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -497,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 6441478101127997071, guid: 9d9f92b633965b042b405a1db8343e93,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6441478101127997071, guid: 9d9f92b633965b042b405a1db8343e93,
         type: 3}

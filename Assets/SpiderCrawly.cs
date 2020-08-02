@@ -1,5 +1,6 @@
 ﻿using Assets.SpideyActions;
 using Assets.SpideyActions.SpideyStates;
+using Assets.SpideyWeb;
 using QuikGraph;
 using System;
 using System.Collections.Generic;
@@ -46,15 +47,42 @@ namespace Assets
 
         private AsyncStateMachine<SpiderCrawly> stateMachine;
 
+
+        public BasicConnection[] goalTopology;
+        public int originGoalVertex;
+        public NodeBehavior originActual;
+        private GraphTopologyEquator topologyEquator;
+
         private void Awake()
         {
             extraIgnoreConnections = new List<Connection>();
             stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
+
+            topologyEquator = new GraphTopologyEquator(goalTopology, originGoalVertex);
         }
 
         private void Start()
         {
             winZones = FindObjectsOfType<WinZone>();
+        }
+
+        public void CheckIfWin()
+        {
+            return;
+            if (this.MatchesTopologyTarget(originActual))
+            {
+                Debug.Log("yes win");
+                CustomEventSystem.instance.Dispatch(EVENT_TYPE.WIN, this);
+            }
+            else
+            {
+                Debug.Log("No win");
+            }
+        }
+
+        private bool MatchesTopologyTarget(NodeBehavior originVertexInActual)
+        {
+            return this.topologyEquator.GraphMatches(graph, originVertexInActual);
         }
 
         private bool defaultPositioning = true;
@@ -72,13 +100,16 @@ namespace Assets
 
                 var scaledDiff = diff * myDistance;
                 transform.position = a + scaledDiff;
+                transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
                 switch (whichSide)
                 {
                     case TraversalSide.LEFTHAND:
-                        transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
+                        transform.localScale = new Vector3(1, 1, 1);
+                        //transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
                         break;
                     case TraversalSide.RIGHTHAND:
-                        transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
+                        transform.localScale = new Vector3(1, -1, 1);
+                        //transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
                         break;
                 }
             }
