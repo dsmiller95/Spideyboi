@@ -11,12 +11,6 @@ public class CameraMovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*EventTrigger trigger = GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.Scroll;
-        entry.callback.AddListener((data) => { OnScroll((PointerEventData)data); });
-        trigger.triggers.Add(entry);
-        Debug.Log("Registered scroll trigger.");*/
 
         camera = GetComponent<Camera>();
         if (camera == null)

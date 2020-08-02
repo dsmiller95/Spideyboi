@@ -1,8 +1,8 @@
 ﻿using Assets.SpideyActions;
 using QuikGraph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets
@@ -12,9 +12,10 @@ namespace Assets
         LEFTHAND,
         RIGHTHAND
     }
+    [ExecuteInEditMode]
     public class SpiderCrawly : MonoBehaviour
     {
-        public GraphManager graphManager;
+        public GraphManager graphManager => GetComponentInParent<GraphManager>();
 
         public float movementSpeed = 1;
         public float sideOffset = 1;
@@ -32,20 +33,12 @@ namespace Assets
         private IList<ISpideyAction> actions;
         private int indexInSpideyActions;
 
+        private IList<WinZone> winZones;
+
 
         private void Start()
         {
-            //actions = new ISpideyAction[]
-            //{
-            //    new CreateNodeSpideyAction(),
-            //    new DoNothingSpideyAction(),
-            //    new DoNothingSpideyAction(),
-            //};
-            //indexInSpideyActions = 0;
-
-            //var vertices = graph.Vertices.ToList();
-            //lastNode = vertices[Random.Range(0, vertices.Count)];
-            //PickRandomConnection();
+            winZones = FindObjectsOfType<WinZone>();
         }
 
 
@@ -53,6 +46,15 @@ namespace Assets
         {
             if (isMoving)
             {
+                foreach(var winZone in winZones)
+                {
+                    if (winZone.TryTriggerwin(this))
+                    {
+                        this.StopMoving();
+                        return;
+                    }
+                }
+
                 distanceAlongConnection += Time.deltaTime * movementSpeed;
             }
 
@@ -97,12 +99,17 @@ namespace Assets
             isMoving = false;
         }
 
+        public void ResetToOrigin()
+        {
+            throw new NotImplementedException();
+        }
+
         private bool PickRandomConnection()
         {
             var connections = graph.AdjacentEdges(lastNode).ToList();
             if (connections.Count > 0)
             {
-                currentConnection = connections[Random.Range(0, connections.Count)];
+                currentConnection = connections[UnityEngine.Random.Range(0, connections.Count)];
                 return true;
             }
             return false;

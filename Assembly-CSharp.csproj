@@ -65,6 +65,11 @@
   <ItemGroup>
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\DragSource.cs" />
+    <Compile Include="Assets\Eventing\CustomEventEmitter.cs" />
+    <Compile Include="Assets\Eventing\CustomEventListener.cs" />
+    <Compile Include="Assets\Eventing\CustomEventSystem.cs" />
+    <Compile Include="Assets\Eventing\EventToggle.cs" />
+    <Compile Include="Assets\SceneRestore.cs" />
     <Compile Include="Assets\SpiderCrawly.cs" />
     <Compile Include="Assets\SpideyActions\CreateNodeSpideyAction.cs" />
     <Compile Include="Assets\SpideyActions\DoNothingSpideyAction.cs" />
@@ -73,10 +78,12 @@
     <Compile Include="Assets\SpideyWeb\GraphManager.cs" />
     <Compile Include="Assets\SpideyWeb\GraphManagerEditor.cs" />
     <Compile Include="Assets\SpideyWeb\NodeBehavior.cs" />
+    <Compile Include="Assets\SpideyWeb\Resetable.cs" />
     <Compile Include="Assets\UI\DragItem.cs" />
     <Compile Include="Assets\UI\DragZone.cs" />
     <Compile Include="Assets\UI\PlayButton.cs" />
     <Compile Include="Assets\Vector2Extension.cs" />
+    <Compile Include="Assets\WinZone.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
