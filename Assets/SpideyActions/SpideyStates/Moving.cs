@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions.SpideyStates
 {
-    public class MovingStateHandler : GenericStateHandler<SpiderCrawly>
+    public class Moving : GenericStateHandler<SpiderCrawly>
     {
 
         public Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly data)
         {
             if (data.lastNode == null || data.currentConnection == null)
             {
-                return Task.FromResult<GenericStateHandler<SpiderCrawly>>(new WaitForValidStateHandler(this));
+                return Task.FromResult<GenericStateHandler<SpiderCrawly>>(new WaitForValid(this));
             }
             if (data.isMoving)
             {

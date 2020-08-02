@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions.SpideyStates
 {
-    public class CreateNodeStateHandler : GenericStateHandler<SpiderCrawly>
+    public class CreateNode : GenericStateHandler<SpiderCrawly>
     {
         private GenericStateHandler<SpiderCrawly> returnToOnsuccess;
-        public CreateNodeStateHandler(GenericStateHandler<SpiderCrawly> returnToOnsuccess)
+        public CreateNode(GenericStateHandler<SpiderCrawly> returnToOnsuccess)
         {
             this.returnToOnsuccess = returnToOnsuccess;
         }

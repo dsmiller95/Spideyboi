@@ -1,5 +1,5 @@
 ﻿
-using Assets.Utilities;
+using Assets.SpideyActions.SpideyStates;
 using UnityEngine;
 
 namespace Assets.SpideyActions
@@ -8,7 +8,7 @@ namespace Assets.SpideyActions
     {
         public GenericStateHandler<SpiderCrawly> StateHandlerFactory(GenericStateHandler<SpiderCrawly> returnToOnSuccess)
         {
-            return new WaitingStateHandler(returnToOnSuccess, 0.1f);
+            return new Waiting(returnToOnSuccess, 0.1f);
         }
     }
 }

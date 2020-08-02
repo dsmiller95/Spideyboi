@@ -1,11 +1,8 @@
 ﻿using Assets.SpideyActions;
-using Assets.Utilities;
+using Assets.SpideyActions.SpideyStates;
 using QuikGraph;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets
@@ -30,6 +27,8 @@ namespace Assets
         [Range(0, 1)]
         public float distanceAlongConnection = 0f;
 
+        public NodeBehavior currentDraggingConnection;
+        public LineRenderer draggingLineRenderer;
 
         public UndirectedGraph<NodeBehavior, Connection> graph => graphManager.Graph;
 
@@ -43,7 +42,7 @@ namespace Assets
 
         private void Awake()
         {
-            stateMachine = new AsyncStateMachine<SpiderCrawly>(new MovingStateHandler());
+            stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
         }
 
         private void Start()
@@ -61,8 +60,9 @@ namespace Assets
             {
                 await stateMachine.update(this);
             }
-            catch
+            catch(System.Exception e)
             {
+                Debug.LogError(e);
                 throw;
             }
         }

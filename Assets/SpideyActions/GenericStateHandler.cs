@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions
 {
     public interface GenericStateHandler<ParamType>
     {

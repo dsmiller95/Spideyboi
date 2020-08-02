@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions.SpideyStates
 {
-    public class WaitingStateHandler : GenericStateHandler<SpiderCrawly>
+    public class Waiting : GenericStateHandler<SpiderCrawly>
     {
         private GenericStateHandler<SpiderCrawly> returnToState;
         private int delay;
-        public WaitingStateHandler(GenericStateHandler<SpiderCrawly> returnToState, float time)
+        public Waiting(GenericStateHandler<SpiderCrawly> returnToState, float time)
         {
             delay = (int)(time * 1000);
             this.returnToState = returnToState;

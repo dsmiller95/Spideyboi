@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions.SpideyStates
 {
-    public class WaitForValidStateHandler : GenericStateHandler<SpiderCrawly>
+    public class WaitForValid : GenericStateHandler<SpiderCrawly>
     {
         private GenericStateHandler<SpiderCrawly> returnToState;
-        public WaitForValidStateHandler(GenericStateHandler<SpiderCrawly> returnToState)
+        public WaitForValid(GenericStateHandler<SpiderCrawly> returnToState)
         {
             this.returnToState = returnToState;
         }

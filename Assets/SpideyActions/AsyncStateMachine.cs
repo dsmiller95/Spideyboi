@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Assets.SpideyActions;
+using System.Threading.Tasks;
 
-namespace Assets.Utilities
+namespace Assets.SpideyActions
 {
     /// <summary>
     /// A state machine which supports asynchronous operations

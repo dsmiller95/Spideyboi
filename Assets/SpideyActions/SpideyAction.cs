@@ -1,4 +1,4 @@
-﻿using Assets.Utilities;
+﻿using Assets.SpideyActions.SpideyStates;
 
 namespace Assets.SpideyActions
 {

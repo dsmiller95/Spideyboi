@@ -3,14 +3,13 @@ using UnityEngine;
 
 namespace Assets
 {
-    [RequireComponent(typeof(LineRenderer))]
     [ExecuteInEditMode]
     public class Connection : MonoBehaviour, IEdge<NodeBehavior>
     {
         public NodeBehavior sourceForInspector;
         public NodeBehavior targetForInspector;
-        public float edgeColliderOffsetInEdges = 0.7f;
 
+        public ConnectionRenderer connectionRenderer;
 
         public float dampingRatio = 0.1f;
         public float frequency = 3f;
@@ -34,7 +33,7 @@ namespace Assets
             get => sourceForInspector; set
             {
                 sourceForInspector = value;
-                ConfigureSpringJoint();
+                UpdateObjectConnections();
             }
         }
         public NodeBehavior Target
@@ -42,31 +41,45 @@ namespace Assets
             get => targetForInspector; set
             {
                 targetForInspector = value;
-                ConfigureSpringJoint();
+                UpdateObjectConnections();
             }
         }
 
         private void Awake()
         {
-            ConfigureSpringJoint();
+            UpdateObjectConnections();
         }
 
         private void Start()
         {
-            AlignLineToConnection();
+        }
+
+
+        private void UpdateObjectConnections()
+        {
+            if (Source != null && Target != null)
+            {
+                var renderer = connectionRenderer;
+                renderer.Source = Source.gameObject;
+                renderer.Target = Target.gameObject;
+            }
+            UpdateSpring();
         }
 
         public SpringJoint2D managedSpringJoint;
 
-        private void ConfigureSpringJoint()
+        private void UpdateSpring()
         {
-            if (!Application.isPlaying)
+            if (managedSpringJoint != null)
             {
-                return;
+                DestroyImmediate(managedSpringJoint);
             }
-            DestroyImmediate(managedSpringJoint);
             if (Source != null && Target != null)
             {
+                if (!Application.isPlaying)
+                {
+                    return;
+                }
                 managedSpringJoint = Source.AddSpringJoint(Target);
                 managedSpringJoint.dampingRatio = dampingRatio;
                 managedSpringJoint.frequency = frequency;
@@ -84,38 +97,6 @@ namespace Assets
 
         private void Update()
         {
-            AlignLineToConnection();
-        }
-
-        private void AlignLineToConnection()
-        {
-            Vector2 sourceVect;
-            Vector2 targetVect;
-            var lineRenderer = GetComponent<LineRenderer>();
-            if (Source != null && Target != null)
-            {
-                sourceVect = Source.transform.position;
-                targetVect = Target.transform.position;
-
-                lineRenderer.SetPosition(0, sourceVect);
-                lineRenderer.SetPosition(1, targetVect);
-            }
-            else
-            {
-                sourceVect = lineRenderer.GetPosition(0);
-                targetVect = lineRenderer.GetPosition(1);
-            }
-
-            var edge = GetComponent<EdgeCollider2D>();
-            if (edge != null)
-            {
-                var offset = edgeColliderOffsetInEdges * (sourceVect - targetVect).normalized;
-
-                var targetWithOffset = targetVect + offset;
-                var sourceWithOffset = sourceVect - offset;
-
-                edge.points = new[] { sourceWithOffset, targetWithOffset };
-            }
         }
     }
 }
