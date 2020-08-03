@@ -24,6 +24,8 @@ public class LevelSelections : MonoBehaviour
     public Level[] levels;
     public GameObject levelPrefab;
 
+    public GameObject completeWinText;
+
     private void Awake()
     {
         if(globalLevels == null)
@@ -61,6 +63,8 @@ public class LevelSelections : MonoBehaviour
         foreach(var level in levels){
             SetupLevelButton(level);
         }
+
+        completeWinText.SetActive(levels.All(x => x.isCompleted));
     }
 
     private void SetupLevelButton(Level level)
