@@ -23,7 +23,7 @@ namespace Assets.SpideyActions.SpideyStates
 
             var graph = crawly.graphManager;
             var lastNode = crawly.lastNode;
-            var currentNode = crawly.currentConnection.GetOtherVertex(lastNode);
+            var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
 
             var otherNode = crawly.currentDraggingConnection;
             if(otherNode == null)

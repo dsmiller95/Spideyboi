@@ -16,7 +16,7 @@ namespace Assets.SpideyActions.SpideyStates
         {
             var graph = crawly.graphManager;
             var lastNode = crawly.lastNode;
-            var currentNode = crawly.currentConnection.GetOtherVertex(lastNode);
+            var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
             var tentativeNext = crawly.PickNextConnection().GetOtherVertex(currentNode);
 
             var newNode = graph.CreateNewNodeWithConnectionBetweenTwoConnectionsAtBase(

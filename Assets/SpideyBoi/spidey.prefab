@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6441478101127997071}
   - component: {fileID: 6441478101127997070}
+  - component: {fileID: 6872014240520699357}
   m_Layer: 0
   m_Name: spidey
   m_TagString: Untagged
@@ -49,14 +50,35 @@ MonoBehaviour:
   sideOffset: 0.2
   isMoving: 0
   lastNode: {fileID: 0}
-  currentConnection: {fileID: 0}
+  currentConnectionForInspector: {fileID: 0}
   whichSide: 0
-  distanceAlongConnection: 0.489
+  distanceAlongConnectionForInspector: 0
   currentDraggingConnection: {fileID: 0}
   draggingLineRenderer: {fileID: 7124361257456346548}
   goalTopology: []
   originGoalVertex: 0
   originActual: {fileID: 0}
+--- !u!50 &6872014240520699357
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441478101127997064}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.01
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &8004329310871660613
 GameObject:
   m_ObjectHideFlags: 0

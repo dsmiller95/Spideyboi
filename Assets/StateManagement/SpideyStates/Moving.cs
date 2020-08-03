@@ -9,7 +9,7 @@ namespace Assets.SpideyActions.SpideyStates
 
         public Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly data)
         {
-            if (data.lastNode == null || data.currentConnection == null)
+            if (data.lastNode == null || data.CurrentConnection == null)
             {
                 return Task.FromResult<GenericStateHandler<SpiderCrawly>>(new WaitForValid(this));
             }
@@ -24,9 +24,9 @@ namespace Assets.SpideyActions.SpideyStates
                     }
                 }
 
-                data.distanceAlongConnection += Time.deltaTime * data.movementSpeed;
+                data.DistanceAlongConnection += Time.deltaTime * data.movementSpeed;
             }
-            if (data.distanceAlongConnection >= 1)
+            if (data.DistanceAlongConnection >= 1)
             {
                 var nextState = data.GetNextAction();
                 return Task.FromResult(nextState.StateHandlerFactory(this));
@@ -36,15 +36,15 @@ namespace Assets.SpideyActions.SpideyStates
 
         public void TransitionIntoState(SpiderCrawly data)
         {
-            if (data.distanceAlongConnection >= 1)
+            if (data.DistanceAlongConnection >= 1)
             {
-                var currentNode = data.currentConnection.GetOtherVertex(data.lastNode);
+                var currentNode = data.CurrentConnection.GetOtherVertex(data.lastNode);
                 var nextConnection = data.PickNextConnection(data.extraIgnoreConnections);
                 data.extraIgnoreConnections.Clear();
                 data.lastNode = currentNode;
-                data.currentConnection = nextConnection;
+                data.CurrentConnection = nextConnection;
 
-                data.distanceAlongConnection = 0;
+                data.DistanceAlongConnection = 0;
             }
         }
 

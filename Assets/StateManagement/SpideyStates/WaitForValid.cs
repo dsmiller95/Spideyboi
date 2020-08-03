@@ -12,7 +12,7 @@ namespace Assets.SpideyActions.SpideyStates
 
         public Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly data)
         {
-            if (data.lastNode == null || data.currentConnection == null)
+            if (data.lastNode == null || data.currentConnectionForInspector == null)
             {
                 return Task.FromResult<GenericStateHandler<SpiderCrawly>>(this);
             }

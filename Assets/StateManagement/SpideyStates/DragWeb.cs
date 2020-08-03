@@ -15,7 +15,7 @@ namespace Assets.SpideyActions.SpideyStates
         public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
         {
             var lastNode = crawly.lastNode;
-            var currentNode = crawly.currentConnection.GetOtherVertex(lastNode);
+            var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
             crawly.draggingLineRenderer.gameObject.SetActive(true);
             crawly.draggingLineRenderer.Source = crawly.gameObject;
             crawly.draggingLineRenderer.Target = currentNode.gameObject;
@@ -27,7 +27,7 @@ namespace Assets.SpideyActions.SpideyStates
                 if (IsBreakingCollision(otherCollider, crawly))
                 {
                     Debug.Log("Broke!");
-                    crawly.draggingLineRenderer.gameObject.SetActive(false);
+                    //crawly.draggingLineRenderer.gameObject.SetActive(false);
                 }
             };
 
@@ -45,7 +45,7 @@ namespace Assets.SpideyActions.SpideyStates
             if(connection != null)
             {
                 // will only break if colliding with a connection not connected to the origin node, or one we are currently on
-                if (connection == spidey.currentConnection)
+                if (connection == spidey.currentConnectionForInspector)
                 {
                     return false;
                 }
@@ -61,7 +61,7 @@ namespace Assets.SpideyActions.SpideyStates
                 {
                     return false;
                 }
-                var connectionPair = spidey.currentConnection.ToVertexPair();
+                var connectionPair = spidey.currentConnectionForInspector.ToVertexPair();
                 if (connectionPair.Source == node || connectionPair.Target == node)
                 {
                     return false;

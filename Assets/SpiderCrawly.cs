@@ -24,13 +24,43 @@ namespace Assets
 
         public bool isMoving = false;
         public NodeBehavior lastNode;
-        public Connection currentConnection;
+        public Connection currentConnectionForInspector;
         public TraversalSide whichSide = TraversalSide.LEFTHAND;
         [Range(0, 1)]
-        public float distanceAlongConnection = 0f;
+        public float distanceAlongConnectionForInspector = 0f;
 
         public NodeBehavior currentDraggingConnection;
         public ConnectionRenderer draggingLineRenderer;
+
+        public Connection CurrentConnection
+        {
+            get => currentConnectionForInspector;
+            set
+            {
+                if(currentConnectionForInspector != value || !Application.isPlaying)
+                {
+                    if (currentConnectionForInspector)
+                    {
+                        currentConnectionForInspector.SplitBody = null;
+                    }
+                    currentConnectionForInspector = value;
+                    if (currentConnectionForInspector)
+                    {
+                        currentConnectionForInspector.SplitBody = this.GetComponent<Rigidbody2D>();
+                        currentConnectionForInspector.SplitRatio = DistanceAlongConnection;
+                    }
+                }
+            }
+        }
+        public float DistanceAlongConnection
+        {
+            get => distanceAlongConnectionForInspector;
+            set
+            {
+                distanceAlongConnectionForInspector = Math.Max(Math.Min(1, value), 0);
+                currentConnectionForInspector.SplitRatio = distanceAlongConnectionForInspector;
+            }
+        }
 
         public UndirectedGraph<NodeBehavior, Connection> graph => graphManager.Graph;
 
@@ -59,6 +89,7 @@ namespace Assets
             stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
 
             topologyEquator = new GraphTopologyEquator(goalTopology, originGoalVertex);
+            this.ForceUpdateBindings();
         }
 
         private void Start()
@@ -92,28 +123,48 @@ namespace Assets
 
             if (defaultPositioning)
             {
-                var myDistance = Math.Min(distanceAlongConnection, 1);
+                //var myDistance = Math.Min(distanceAlongConnectionForInspector, 1);
 
-                Vector2 b = currentConnection.GetOtherVertex(lastNode).transform.position;
-                Vector2 a = lastNode.transform.position;
-                var diff = b - a;
-
-                var scaledDiff = diff * myDistance;
-                transform.position = a + scaledDiff;
-                transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
-                switch (whichSide)
+                if (currentConnectionForInspector)
                 {
-                    case TraversalSide.LEFTHAND:
-                        transform.localScale = new Vector3(1, 1, 1);
-                        break;
-                    case TraversalSide.RIGHTHAND:
-                        transform.localScale = new Vector3(1, -1, 1);
-                        break;
+                    Vector2 b = currentConnectionForInspector.GetOtherVertex(lastNode).transform.position;
+                    Vector2 a = lastNode.transform.position;
+                    var diff = b - a;
+
+                    //var scaledDiff = diff * myDistance;
+                    //transform.position = a + scaledDiff;
+                    transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
+                    switch (whichSide)
+                    {
+                        case TraversalSide.LEFTHAND:
+                            transform.localScale = new Vector3(1, 1, 1);
+                            break;
+                        case TraversalSide.RIGHTHAND:
+                            transform.localScale = new Vector3(1, -1, 1);
+                            break;
+                    }
+                }
+
+                if (!Application.isPlaying)
+                {
+                    this.ForceUpdateBindings();
                 }
             }
         }
+
+        private void ForceUpdateBindings()
+        {
+            Debug.Log("attempt tuptds");
+            this.CurrentConnection = this.currentConnectionForInspector;
+            this.DistanceAlongConnection = this.distanceAlongConnectionForInspector;
+        }
+
         async void myUpdate()
         {
+            if(stateMachine == null)
+            {
+                return;
+            }
             try
             {
                 await stateMachine.update(this);
@@ -159,7 +210,7 @@ namespace Assets
 
         public Connection PickNextConnection(IList<Connection> extraExcludedConnections = null)
         {
-            var currentNode = currentConnection.GetOtherVertex(lastNode);
+            var currentNode = currentConnectionForInspector.GetOtherVertex(lastNode);
             var connections = graph.AdjacentEdges(currentNode).ToList();
             if (connections.Count == 0)
             {
@@ -168,7 +219,7 @@ namespace Assets
             var lastConnectionAngle = currentNode.GetRadianAngleOfConnectionTo(lastNode);
 
             var otherConnections = connections
-                .Where(connection => connection != currentConnection);
+                .Where(connection => connection != currentConnectionForInspector);
             if (extraExcludedConnections != null)
             {
                 otherConnections = otherConnections
@@ -193,7 +244,7 @@ namespace Assets
                 .OrderBy(data => data.angle)
                 .Select(data => data.connection);
 
-            return otherConnections.FirstOrDefault() ?? currentConnection;
+            return otherConnections.FirstOrDefault() ?? currentConnectionForInspector;
         }
     }
 }

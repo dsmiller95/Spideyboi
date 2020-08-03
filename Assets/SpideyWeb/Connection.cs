@@ -10,17 +10,15 @@ namespace Assets
         public NodeBehavior targetForInspector;
 
         public ConnectionRenderer connectionRenderer;
+        public ConnectionRenderer connectionRendererWhenSplit;
 
-        private float _targetDistance = -1;
+        public float _targetDistanceForInspector = 1;
         public float targetDistance
         {
-            get => _targetDistance; set
+            get => _targetDistanceForInspector; set
             {
-                _targetDistance = value;
-                if (connectionRenderer)
-                {
-                    connectionRenderer.SetSpringDistance(_targetDistance);
-                }
+                _targetDistanceForInspector = value;
+                UpdateTargetDistances();
             }
         }
 
@@ -42,9 +40,33 @@ namespace Assets
             }
         }
 
+        public Rigidbody2D _connectionSplitBodyForInspector = null;
+        public Rigidbody2D SplitBody
+        {
+            get => _connectionSplitBodyForInspector;
+            set
+            {
+                _connectionSplitBodyForInspector = value;
+                UpdateObjectConnections();
+            }
+        }
+
+        private float _splitRatio = 0;
+        public float SplitRatio
+        {
+            get => _splitRatio;
+            set
+            {
+                _splitRatio = value;
+                UpdateTargetDistances();
+            }
+        }
+
+
         private void Awake()
         {
             UpdateObjectConnections();
+            UpdateTargetDistances();
         }
 
         private void Start()
@@ -56,9 +78,38 @@ namespace Assets
         {
             if (Source != null && Target != null)
             {
-                var renderer = connectionRenderer;
-                renderer.Source = Source.gameObject;
-                renderer.Target = Target.gameObject;
+                if(SplitBody == null)
+                {
+                    connectionRenderer.Source = Source.gameObject;
+                    connectionRenderer.Target = Target.gameObject;
+                    connectionRendererWhenSplit.gameObject.SetActive(false);
+                }
+                else
+                {
+                    connectionRendererWhenSplit.gameObject.SetActive(true);
+
+                    connectionRenderer.Source = Source.gameObject;
+                    connectionRenderer.Target = SplitBody.gameObject;
+
+                    connectionRendererWhenSplit.Source = SplitBody.gameObject;
+                    connectionRendererWhenSplit.Target = Target.gameObject;
+                }
+            }
+        }
+
+        private void UpdateTargetDistances()
+        {
+            if (connectionRenderer)
+            {
+                if (SplitBody == null)
+                {
+                    connectionRenderer.SetSpringDistance(_targetDistanceForInspector);
+                }
+                else
+                {
+                    connectionRenderer.SetSpringDistance(_targetDistanceForInspector * SplitRatio);
+                    connectionRendererWhenSplit.SetSpringDistance(_targetDistanceForInspector * (1 - SplitRatio));
+                }
             }
         }
 
@@ -68,6 +119,11 @@ namespace Assets
 
         private void Update()
         {
+            if (!Application.isPlaying)
+            {
+                UpdateObjectConnections();
+                UpdateTargetDistances();
+            }
         }
     }
 }
