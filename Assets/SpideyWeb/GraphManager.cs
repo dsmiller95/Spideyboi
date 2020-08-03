@@ -17,7 +17,7 @@ public class GraphManager : MonoBehaviour
     public Connection edgePrefab;
 
     public float defaultConnectionLength = 5f;
-    public float initialConnectionLength = 1f;
+    public float initialConnectionLength = 2f;
 
     private void Awake()
     {

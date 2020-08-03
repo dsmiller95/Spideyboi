@@ -28,6 +28,7 @@ namespace Assets.SpideyActions.SpideyStates
             var currentConnectionLength = (currentNode.transform.position - otherNode.transform.position).magnitude;
 
             var connection = graph.CreateConnection(currentNode, otherNode, currentConnectionLength);
+
             crawly.draggingLineRenderer.gameObject.SetActive(false);
 
             var totalDelay = 700;
@@ -39,10 +40,13 @@ namespace Assets.SpideyActions.SpideyStates
             }
 
             crawly.extraIgnoreConnections.Add(connection);
-
+            var connectionsSpring = connection.GetComponentInChildren<RealSpring>();
+            if(connectionsSpring != null)
+            {
+                connectionsSpring.ImpulseOnNext(1);
+            }
 
             return returnToOnsuccess;
-
         }
 
         public void TransitionIntoState(SpiderCrawly data)

@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 5224267297960056045}
   - component: {fileID: 1020683729630876619}
   - component: {fileID: 8405631742976600683}
+  - component: {fileID: 5391343761562132745}
   m_Layer: 0
-  m_Name: renderer
+  m_Name: connection renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,8 +147,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0.12
   m_Points:
-  - {x: -2.8962803, y: -3.2470727}
-  - {x: 0.39628023, y: -0.45292732}
+  - {x: -2.8200345, y: -3.1823688}
+  - {x: 0.3200345, y: -0.51763123}
 --- !u!114 &8405631742976600683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +161,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081e920189edaa9489b00ac50312373b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Source: {fileID: 0}
-  Target: {fileID: 0}
-  edgeColliderOffsetInEdges: 0.7
+  edgeColliderOffsetInEdges: 0.8
+  managedSpringJoint: {fileID: 5391343761562132745}
+--- !u!114 &5391343761562132745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425807465393252582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb55bc062da1134c993ebcb4bc1f2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {fileID: 0}
+  b: {fileID: 0}
+  springConstant: 2
+  targetDistance: 10
+  waitTillNextPull: 0

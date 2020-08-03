@@ -1,4 +1,4 @@
-﻿using QuikGraph;
+﻿using UnityEditor.Build;
 using UnityEngine;
 
 namespace Assets
@@ -7,12 +7,73 @@ namespace Assets
     [ExecuteInEditMode]
     public class ConnectionRenderer : MonoBehaviour
     {
-        public GameObject Source;
-        public GameObject Target;
+        private GameObject _source;
+        private GameObject _target;
+        public GameObject Source
+        {
+            get => _source; set
+            {
+                Collider2D sourceCollider;
+                if (_source != null && (sourceCollider = _source.GetComponent<Collider2D>()) != null)
+                {
+                    Physics2D.IgnoreCollision(GetComponent<Collider2D>(), sourceCollider, false);
+                }
+                _source = value;
+                if (_source != null && (sourceCollider = _source.GetComponent<Collider2D>()) != null)
+                {
+                    Physics2D.IgnoreCollision(GetComponent<Collider2D>(), sourceCollider, true);
+                }
+                UpdateSpringConnections();
+            }
+        }
+        public GameObject Target
+        {
+            get => _target; set
+            {
+                Collider2D targetCollider;
+                if (_target != null && (targetCollider = _target.GetComponent<Collider2D>()) != null)
+                {
+                    Physics2D.IgnoreCollision(GetComponent<Collider2D>(), targetCollider, false);
+                }
+                _target = value;
+                if (_target != null && (targetCollider = _target.GetComponent<Collider2D>()) != null)
+                {
+                    Physics2D.IgnoreCollision(GetComponent<Collider2D>(), targetCollider, true);
+                }
+                UpdateSpringConnections();
+            }
+        }
+
+
         public float edgeColliderOffsetInEdges = 0.7f;
+
+        public RealSpring managedSpringJoint;
+
+        private void UpdateSpringConnections()
+        {
+            if (managedSpringJoint)
+            {
+                managedSpringJoint.a = Source;//?.GetComponent<Rigidbody2D>();
+                managedSpringJoint.b = Target;//?.GetComponent<Rigidbody2D>();
+            }
+        }
+
+        public void SetSpringDistance(float newDistance)
+        {
+            if (managedSpringJoint)
+            {
+                managedSpringJoint.targetDistance = newDistance;
+            }
+        }
+
+        private void Awake()
+        {
+            UpdateSpringConnections();
+        }
 
         private void Start()
         {
+            UpdateSpringConnections();
             AlignLineToConnection();
         }
 

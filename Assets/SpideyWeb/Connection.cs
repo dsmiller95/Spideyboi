@@ -17,9 +17,9 @@ namespace Assets
             get => _targetDistance; set
             {
                 _targetDistance = value;
-                if (managedSpringJoint)
+                if (connectionRenderer)
                 {
-                    managedSpringJoint.targetDistance = _targetDistance;
+                    connectionRenderer.SetSpringDistance(_targetDistance);
                 }
             }
         }
@@ -60,16 +60,6 @@ namespace Assets
                 renderer.Source = Source.gameObject;
                 renderer.Target = Target.gameObject;
             }
-            UpdateSpringConnections();
-        }
-
-        public RealSpring managedSpringJoint;
-
-        private void UpdateSpringConnections()
-        {
-            managedSpringJoint.a = Source?.GetComponent<Rigidbody2D>();
-            managedSpringJoint.b = Target?.GetComponent<Rigidbody2D>();
-            
         }
 
         private void OnDestroy()

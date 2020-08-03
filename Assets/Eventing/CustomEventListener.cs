@@ -20,13 +20,13 @@ namespace Assets
 
         private void OnDestroy()
         {
-            CustomEventSystem.instance.RemoveListener(myListener);
+            CustomEventSystem.instance?.RemoveListener(myListener);
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            CustomEventSystem.instance.RegisterListener(myListener);
+            CustomEventSystem.instance?.RegisterListener(myListener);
         }
     }
 }

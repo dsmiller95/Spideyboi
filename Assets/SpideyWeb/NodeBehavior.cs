@@ -38,23 +38,19 @@ namespace Assets
             return joint;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var myPos = transform.position;
             var allOtherNodePositionsDiffs = transform.parent.gameObject
                 .GetComponentsInChildren<NodeBehavior>()
                 .Where(x => x != this)
                 .Select(x => x.transform.position - myPos);
-            var allConnectedNodes = graph.AdjacentEdges(this)
-                .Select(connection => connection.GetOtherVertex(this))
-                .Select(x => x.transform.position - myPos);
 
             var repulsionForce = GetInverseSquaredForce(allOtherNodePositionsDiffs, repulsionConstant);
-            //var attractionForce = GetSpringForce(allConnectedNodes, connectionSpringConstant, targetConnectionLength);
 
             var body = GetComponent<Rigidbody2D>();
-            Vector2 force = repulsionForce;// + attractionForce;
-            body.AddForce(force);
+            Vector2 force = repulsionForce;
+            body.AddForce(force, ForceMode2D.Force);
         }
 
         private Vector3 GetInverseSquaredForce(IEnumerable<Vector3> positionDelta, float attractionConstant)
