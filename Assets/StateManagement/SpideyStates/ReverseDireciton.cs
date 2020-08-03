@@ -1,6 +1,7 @@
 ﻿using QuikGraph;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
 {
@@ -20,7 +21,7 @@ namespace Assets.SpideyActions.SpideyStates
             crawly.lastNode = currentNode;
             crawly.SwitchSide();
             crawly.distanceAlongConnectionForInspector = 0;
-            await Task.Delay(100);
+            await Task.Delay((int)(200 / Time.timeScale));
             return returnToOnsuccess;
         }
 

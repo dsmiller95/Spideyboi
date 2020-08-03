@@ -49,7 +49,7 @@ namespace Assets.SpideyActions.SpideyStates
 
             spring.springConstant /= 2;
 
-            var totalDelay = 700;
+            var totalDelay = (int)(700 / Time.timeScale);
             var lengthSteps = 10;
             await Task.Delay(totalDelay / 2);
             if (connection != null)

@@ -31,7 +31,7 @@ public class CameraMovementController : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             var translate = lastMouse - Input.mousePosition;
-            camera.transform.position += dragPanSensitivity * translate * Time.deltaTime * camera.orthographicSize;
+            camera.transform.position += dragPanSensitivity * translate * Time.deltaTime * camera.orthographicSize / Time.timeScale;
         }
 
         if (Input.GetKey(KeyCode.W))

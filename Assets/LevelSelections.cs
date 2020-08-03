@@ -16,6 +16,7 @@ public class Level
     public bool isCompleted;
     public GameObject instance;
     public int bestScore = -1;
+    public float bestTime = -1;
 }
 
 public class LevelSelections : MonoBehaviour

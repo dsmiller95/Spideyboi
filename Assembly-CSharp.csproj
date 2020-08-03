@@ -78,6 +78,7 @@
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Sprinkler.cs" />
     <Compile Include="Assets\SceneRestore.cs" />
     <Compile Include="Assets\ScoreDisplay.cs" />
+    <Compile Include="Assets\SimSpeedController.cs" />
     <Compile Include="Assets\SpiderCrawly.cs" />
     <Compile Include="Assets\SpideyWeb\Connection.cs" />
     <Compile Include="Assets\SpideyWeb\ConnectionRenderer.cs" />

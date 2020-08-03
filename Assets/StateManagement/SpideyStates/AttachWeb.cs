@@ -14,7 +14,7 @@ namespace Assets.SpideyActions.SpideyStates
 
         public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
         {
-            var totalDelay = 700;
+            int totalDelay = (int)(700 / Time.timeScale);
             if (!crawly.draggingLineRenderer.gameObject.activeInHierarchy)
             {
                 // it broke!

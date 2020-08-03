@@ -8,7 +8,7 @@ namespace Assets.SpideyActions
     {
         public GenericStateHandler<SpiderCrawly> StateHandlerFactory(GenericStateHandler<SpiderCrawly> returnToOnSuccess)
         {
-            return new Waiting(returnToOnSuccess, 0.1f);
+            return new Waiting(returnToOnSuccess, 0.1f / Time.timeScale);
         }
     }
 }

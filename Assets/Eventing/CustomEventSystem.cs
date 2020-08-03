@@ -55,5 +55,6 @@ namespace Assets
     {
         WIN,
         RESET,
+        SIM_START,
     }
 }

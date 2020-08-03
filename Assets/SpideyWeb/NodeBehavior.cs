@@ -28,15 +28,6 @@ namespace Assets
             return (Mathf.Atan2(delta.y, delta.x) + Mathf.PI * 2) % (Mathf.PI * 2);
         }
 
-        public SpringJoint2D AddSpringJoint(NodeBehavior other)
-        {
-            var joint = gameObject.AddComponent<SpringJoint2D>();
-            joint.connectedBody = other.GetComponent<Rigidbody2D>();
-            joint.autoConfigureDistance = false;
-
-            return joint;
-        }
-
         private void FixedUpdate()
         {
             var myPos = transform.position;
