@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -69,8 +67,23 @@ public class LevelSelections : MonoBehaviour
     {
         level.instance = Instantiate(levelPrefab, transform);
         level.instance.GetComponentInChildren<TextMeshProUGUI>().text = level.buttonNumber;
-        level.instance.GetComponentInChildren<Button>().interactable = level.isUnlocked;
+        var button = level.instance.GetComponentInChildren<Button>();
+        button.interactable = level.isUnlocked;
         level.instance.GetComponentInChildren<SceneRestore>().SceneToRestore = level.sceneName;
+
+
+        Image img = null;
+        foreach (Transform child in level.instance.transform)
+        {
+            if((img = child.GetComponent<Image>()) != null)
+            {
+                break;
+            }
+        }
+        if(img != null)
+        {
+            img.gameObject.SetActive(level.isCompleted);
+        }
     }
 
     

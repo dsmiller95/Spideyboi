@@ -422,26 +422,36 @@ MonoBehaviour:
     isUnlocked: 1
     isCompleted: 0
     instance: {fileID: 0}
+    bestScore: -1
+    bestTime: -1
   - buttonNumber: 2
     sceneName: Level 02
     isUnlocked: 0
     isCompleted: 0
     instance: {fileID: 0}
+    bestScore: -1
+    bestTime: -1
   - buttonNumber: 3
     sceneName: Level 03
     isUnlocked: 0
     isCompleted: 0
     instance: {fileID: 0}
+    bestScore: -1
+    bestTime: -1
   - buttonNumber: 4
     sceneName: Level 04
     isUnlocked: 0
     isCompleted: 0
     instance: {fileID: 0}
+    bestScore: -1
+    bestTime: -1
   - buttonNumber: 5
     sceneName: Level 05
     isUnlocked: 0
     isCompleted: 0
     instance: {fileID: 0}
+    bestScore: -1
+    bestTime: -1
   levelPrefab: {fileID: 8765206238305674165, guid: 13f378eaa591ff2488c727c0233f74bd,
     type: 3}
 --- !u!1 &1732990243
