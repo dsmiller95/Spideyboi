@@ -17,9 +17,7 @@ namespace Assets.SpideyActions.SpideyStates
         {
             var lastNode = crawly.lastNode;
             var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
-            crawly.draggingLineRenderer.gameObject.SetActive(true);
-            crawly.draggingLineRenderer.Source = crawly.gameObject;
-            crawly.draggingLineRenderer.Target = currentNode.gameObject;
+            crawly.draggingLineRenderer.InstantSetConnection(crawly.gameObject, currentNode.gameObject);
 
             crawly.currentDraggingNode = currentNode;
 
@@ -28,7 +26,7 @@ namespace Assets.SpideyActions.SpideyStates
                 if (IsBreakingCollision(otherCollider, crawly))
                 {
                     Debug.Log("Broke!");
-                    crawly.draggingLineRenderer.gameObject.SetActive(false);
+                    crawly.draggingLineRenderer.InstantClearConnection();
                 }
             };
 
@@ -37,6 +35,11 @@ namespace Assets.SpideyActions.SpideyStates
 
         private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)
         {
+            if (!spidey.CanBreakWeb(other))
+            {
+                return false;
+            }
+
             var connection = other.GetComponentInParent<Connection>();
             var node = other.GetComponentInParent<NodeBehavior>();
 

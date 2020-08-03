@@ -36,7 +36,7 @@ namespace Assets.SpideyActions.SpideyStates
 
             var connection = graph.CreateConnection(currentNode, otherNode, currentConnectionLength);
 
-            crawly.draggingLineRenderer.gameObject.SetActive(false);
+            crawly.draggingLineRenderer.InstantClearConnection();
 
             var lengthSteps = 10;
             for (var i = 0; i <= lengthSteps; i++)

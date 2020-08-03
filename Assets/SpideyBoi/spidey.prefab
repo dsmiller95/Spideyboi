@@ -53,7 +53,7 @@ MonoBehaviour:
   currentConnectionForInspector: {fileID: 0}
   whichSide: 0
   distanceAlongConnectionForInspector: 0
-  currentDraggingConnection: {fileID: 0}
+  currentDraggingNode: {fileID: 0}
   draggingLineRenderer: {fileID: 7124361257456346548}
   goalTopology: []
   originGoalVertex: 0
@@ -265,7 +265,7 @@ PrefabInstance:
     - target: {fileID: 8405631742976600683, guid: b283e5f011d5e864faeba1cc62444142,
         type: 3}
       propertyPath: edgeColliderOffsetInEdges
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b283e5f011d5e864faeba1cc62444142, type: 3}

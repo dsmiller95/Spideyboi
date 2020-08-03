@@ -32,7 +32,7 @@ public class GraphManager : MonoBehaviour
 
     private void Graph_EdgeAdded(Connection edge)
     {
-        FindObjectOfType<SpiderCrawly>()?.CheckIfWin();
+        //FindObjectOfType<SpiderCrawly>()?.CheckIfWin();
     }
 
     // Start is called before the first frame update

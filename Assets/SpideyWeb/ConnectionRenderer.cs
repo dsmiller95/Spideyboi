@@ -75,6 +75,21 @@ namespace Assets
             }
         }
 
+        public void InstantSetConnection(GameObject a, GameObject b)
+        {
+            Source = a;
+            Target = b;
+            AlignLineToConnection();
+            this.gameObject.SetActive(true);
+            //crawly.draggingLineRenderer.gameObject.SetActive(true);
+        }
+        public void InstantClearConnection()
+        {
+            Source = null;
+            Target = null;
+            this.gameObject.SetActive(false);
+        }
+
         private void Awake()
         {
             UpdateSpringConnections();

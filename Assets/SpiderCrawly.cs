@@ -81,14 +81,12 @@ namespace Assets
         public BasicConnection[] goalTopology;
         public int originGoalVertex;
         public NodeBehavior originActual;
-        private GraphTopologyEquator topologyEquator;
 
         private void Awake()
         {
             extraIgnoreConnections = new List<Connection>();
             stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
 
-            topologyEquator = new GraphTopologyEquator(goalTopology, originGoalVertex);
             ForceUpdateBindings();
         }
 
@@ -97,24 +95,6 @@ namespace Assets
             winZones = FindObjectsOfType<WinZone>();
         }
 
-        public void CheckIfWin()
-        {
-            return;
-            if (MatchesTopologyTarget(originActual))
-            {
-                Debug.Log("yes win");
-                CustomEventSystem.instance.Dispatch(EVENT_TYPE.WIN, this);
-            }
-            else
-            {
-                Debug.Log("No win");
-            }
-        }
-
-        private bool MatchesTopologyTarget(NodeBehavior originVertexInActual)
-        {
-            return topologyEquator.GraphMatches(graph, originVertexInActual);
-        }
 
         private bool defaultPositioning = true;
         public void Update()
@@ -246,6 +226,13 @@ namespace Assets
             return otherConnections.FirstOrDefault() ?? currentConnectionForInspector;
         }
 
-
+        public bool CanBreakWeb(Collider2D collider)
+        {
+            if (collider.isTrigger)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

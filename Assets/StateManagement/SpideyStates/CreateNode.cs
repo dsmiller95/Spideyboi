@@ -82,9 +82,13 @@ namespace Assets.SpideyActions.SpideyStates
         }
         private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)
         {
+            if (!spidey.CanBreakWeb(other))
+            {
+                return false;
+            }
+
             var connection = other.GetComponentInParent<Connection>();
             var node = other.GetComponentInParent<NodeBehavior>();
-
             if (connection == null && node == null)
             {
                 return true;
