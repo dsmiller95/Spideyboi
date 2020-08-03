@@ -104,6 +104,7 @@
     <Compile Include="Assets\StateManagement\SpideyStates\SwitchSide.cs" />
     <Compile Include="Assets\StateManagement\SpideyStates\WaitForValid.cs" />
     <Compile Include="Assets\StateManagement\SpideyStates\Waiting.cs" />
+    <Compile Include="Assets\TutorialBox.cs" />
     <Compile Include="Assets\UI\DragItem.cs" />
     <Compile Include="Assets\UI\DragSource.cs" />
     <Compile Include="Assets\UI\DropSlot.cs" />
