@@ -82,6 +82,7 @@
     <Compile Include="Assets\SpideyWeb\GraphManagerEditor.cs" />
     <Compile Include="Assets\SpideyWeb\GraphTopologyEquator.cs" />
     <Compile Include="Assets\SpideyWeb\NodeBehavior.cs" />
+    <Compile Include="Assets\SpideyWeb\RealSpring.cs" />
     <Compile Include="Assets\SpideyWeb\Resetable.cs" />
     <Compile Include="Assets\StateManagement\Actions\AttachWebSpideyAction.cs" />
     <Compile Include="Assets\StateManagement\Actions\CreateNodeSpideyAction.cs" />

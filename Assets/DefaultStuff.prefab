@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: -5
-  dragPanSensitivity: 1
+  dragPanSensitivity: 0.2
   panSpeedPercent: 0.01
 --- !u!1001 &7626673132513882892
 PrefabInstance:

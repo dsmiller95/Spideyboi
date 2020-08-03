@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3427469780260971434}
   - component: {fileID: 7177624188490327251}
+  - component: {fileID: 1935446649711621026}
   m_Layer: 0
   m_Name: connection
   m_TagString: Untagged
@@ -39,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3427469780260971428}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 996a5c40d8f83cc4da53b9184f90e685, type: 3}
   m_Name: 
@@ -47,9 +48,23 @@ MonoBehaviour:
   sourceForInspector: {fileID: 0}
   targetForInspector: {fileID: 0}
   connectionRenderer: {fileID: 3468865856555185537}
-  dampingRatio: 0.1
-  frequency: 3
-  managedSpringJoint: {fileID: 0}
+  managedSpringJoint: {fileID: 1935446649711621026}
+--- !u!114 &1935446649711621026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427469780260971428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb55bc062da1134c993ebcb4bc1f2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {fileID: 0}
+  b: {fileID: 0}
+  springConstant: 50
+  targetDistance: 10
 --- !u!1001 &4937403793255817194
 PrefabInstance:
   m_ObjectHideFlags: 0

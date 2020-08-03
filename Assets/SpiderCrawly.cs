@@ -105,11 +105,9 @@ namespace Assets
                 {
                     case TraversalSide.LEFTHAND:
                         transform.localScale = new Vector3(1, 1, 1);
-                        //transform.position = (Vector2)transform.position + (sideOffset * diff.normalized.Rotate(90));
                         break;
                     case TraversalSide.RIGHTHAND:
                         transform.localScale = new Vector3(1, -1, 1);
-                        //transform.position = (Vector2)transform.position + (-sideOffset * diff.normalized.Rotate(90));
                         break;
                 }
             }

@@ -11,9 +11,6 @@ namespace Assets
 
         public ConnectionRenderer connectionRenderer;
 
-        public float dampingRatio = 0.1f;
-        public float frequency = 3f;
-
         private float _targetDistance = -1;
         public float targetDistance
         {
@@ -22,7 +19,7 @@ namespace Assets
                 _targetDistance = value;
                 if (managedSpringJoint)
                 {
-                    managedSpringJoint.distance = _targetDistance;
+                    managedSpringJoint.targetDistance = _targetDistance;
                 }
             }
         }
@@ -63,36 +60,20 @@ namespace Assets
                 renderer.Source = Source.gameObject;
                 renderer.Target = Target.gameObject;
             }
-            UpdateSpring();
+            UpdateSpringConnections();
         }
 
-        public SpringJoint2D managedSpringJoint;
+        public RealSpring managedSpringJoint;
 
-        private void UpdateSpring()
+        private void UpdateSpringConnections()
         {
-            if (managedSpringJoint != null)
-            {
-                DestroyImmediate(managedSpringJoint);
-            }
-            if (Source != null && Target != null)
-            {
-                if (!Application.isPlaying)
-                {
-                    return;
-                }
-                managedSpringJoint = Source.AddSpringJoint(Target);
-                managedSpringJoint.dampingRatio = dampingRatio;
-                managedSpringJoint.frequency = frequency;
-                managedSpringJoint.distance = (targetDistance < 0) ? GraphManager.defaultConnectionLength : targetDistance;
-            }
+            managedSpringJoint.a = Source?.GetComponent<Rigidbody2D>();
+            managedSpringJoint.b = Target?.GetComponent<Rigidbody2D>();
+            
         }
 
         private void OnDestroy()
         {
-            if(managedSpringJoint != null)
-            {
-                DestroyImmediate(managedSpringJoint);
-            }
         }
 
         private void Update()
