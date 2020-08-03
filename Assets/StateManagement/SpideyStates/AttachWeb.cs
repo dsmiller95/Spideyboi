@@ -14,6 +14,13 @@ namespace Assets.SpideyActions.SpideyStates
 
         public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
         {
+            var totalDelay = 700;
+            if (!crawly.draggingLineRenderer.gameObject.activeInHierarchy)
+            {
+                // it broke!
+                return new Waiting(this.returnToOnsuccess, totalDelay / 1000f);
+            }
+
             var graph = crawly.graphManager;
             var lastNode = crawly.lastNode;
             var currentNode = crawly.currentConnection.GetOtherVertex(lastNode);
@@ -31,7 +38,6 @@ namespace Assets.SpideyActions.SpideyStates
 
             crawly.draggingLineRenderer.gameObject.SetActive(false);
 
-            var totalDelay = 700;
             var lengthSteps = 10;
             for (var i = 0; i <= lengthSteps; i++)
             {

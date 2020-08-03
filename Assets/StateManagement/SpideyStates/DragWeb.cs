@@ -21,7 +21,53 @@ namespace Assets.SpideyActions.SpideyStates
             crawly.draggingLineRenderer.Target = currentNode.gameObject;
 
             crawly.currentDraggingConnection = currentNode;
+
+            crawly.draggingLineRenderer.OnCollided = (otherCollider) =>
+            {
+                if (IsBreakingCollision(otherCollider, crawly))
+                {
+                    Debug.Log("Broke!");
+                    crawly.draggingLineRenderer.gameObject.SetActive(false);
+                }
+            };
+
             return returnToOnsuccess;
+        }
+
+        private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)
+        {
+            var connection = other.GetComponentInParent<Connection>();
+            var node = other.GetComponentInParent<NodeBehavior>();
+            if (connection == null && node == null)
+            {
+                return true;
+            }
+            if(connection != null)
+            {
+                // will only break if colliding with a connection not connected to the origin node, or one we are currently on
+                if (connection == spidey.currentConnection)
+                {
+                    return false;
+                }
+                var connectionPair = connection.ToVertexPair();
+                if (connectionPair.Source == spidey.currentDraggingConnection || connectionPair.Target == spidey.currentDraggingConnection)
+                {
+                    return false;
+                }
+            }
+            if(node != null)
+            {
+                if(node == spidey.currentDraggingConnection)
+                {
+                    return false;
+                }
+                var connectionPair = spidey.currentConnection.ToVertexPair();
+                if (connectionPair.Source == node || connectionPair.Target == node)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
 

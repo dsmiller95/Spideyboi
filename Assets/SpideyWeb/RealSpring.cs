@@ -61,11 +61,6 @@ namespace Assets
             }
             waitTillNextPull = false;
 
-            if(force < 0)
-            {
-                Debug.Log($"Force: {(int)force}");
-            }
-
             var normal = diff.normalized;
             var forceMode = impulseStrength == 1 ? ForceMode2D.Force : ForceMode2D.Impulse;
             if(forceMode == ForceMode2D.Impulse)

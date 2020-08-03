@@ -1,4 +1,4 @@
-﻿using UnityEditor.Build;
+﻿using System;
 using UnityEngine;
 
 namespace Assets
@@ -42,6 +42,13 @@ namespace Assets
                 }
                 UpdateSpringConnections();
             }
+        }
+
+        public Action<Collider2D> OnCollided;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            OnCollided?.Invoke(collision);
         }
 
 
@@ -101,15 +108,17 @@ namespace Assets
                 targetVect = lineRenderer.GetPosition(1);
             }
 
-            var edge = GetComponent<EdgeCollider2D>();
+            var edge = GetComponent<CapsuleCollider2D>();
             if (edge != null)
             {
-                var offset = edgeColliderOffsetInEdges * (sourceVect - targetVect).normalized;
+                var midpoint = (sourceVect + targetVect) / 2;
+                this.transform.position = midpoint;
+                var diff = sourceVect - targetVect;
 
-                var targetWithOffset = targetVect + offset;
-                var sourceWithOffset = sourceVect - offset;
+                this.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
 
-                edge.points = new[] { sourceWithOffset, targetWithOffset };
+                var size = diff.magnitude - edgeColliderOffsetInEdges * 2;
+                edge.size = new Vector2(size, edge.size.y);
             }
         }
     }

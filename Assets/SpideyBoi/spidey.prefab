@@ -155,10 +155,15 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 425807465393252582, guid: b283e5f011d5e864faeba1cc62444142,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1020683729630876619, guid: b283e5f011d5e864faeba1cc62444142,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2128197887325322130, guid: b283e5f011d5e864faeba1cc62444142,
         type: 3}
@@ -228,6 +233,16 @@ PrefabInstance:
     - target: {fileID: 5391343761562132745, guid: b283e5f011d5e864faeba1cc62444142,
         type: 3}
       propertyPath: waitTillNextPull
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395563313347318208, guid: b283e5f011d5e864faeba1cc62444142,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8405631742976600683, guid: b283e5f011d5e864faeba1cc62444142,
+        type: 3}
+      propertyPath: edgeColliderOffsetInEdges
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
