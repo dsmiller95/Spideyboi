@@ -20,7 +20,7 @@ public class ScoreDisplay : MonoBehaviour
 
         var graphConnections = graph.Graph.EdgeCount;
         var actionCount = actions.Length;
-        var score = graphConnections + actionCount;
+        var score = graphConnections + actionCount * 10;
         var bestScore = LevelSelections.CurrentLevel().bestScore;
 
         var text = GetComponentInChildren<TextMeshProUGUI>();
