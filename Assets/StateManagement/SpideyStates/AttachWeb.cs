@@ -46,11 +46,11 @@ namespace Assets.SpideyActions.SpideyStates
             }
 
             crawly.extraIgnoreConnections.Add(connection);
-            var connectionsSpring = connection.GetComponentInChildren<RealSpring>();
-            if(connectionsSpring != null)
-            {
-                connectionsSpring.ImpulseOnNext(1);
-            }
+            //var connectionsSpring = connection.GetComponentInChildren<RealSpring>();
+            //if(connectionsSpring != null)
+            //{
+            //    connectionsSpring.ImpulseOnNext(1);
+            //}
 
             return returnToOnsuccess;
         }

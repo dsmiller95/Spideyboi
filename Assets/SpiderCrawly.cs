@@ -37,7 +37,7 @@ namespace Assets
             get => currentConnectionForInspector;
             set
             {
-                if(currentConnectionForInspector != value || !Application.isPlaying)
+                if (currentConnectionForInspector != value || !Application.isPlaying)
                 {
                     if (currentConnectionForInspector)
                     {
@@ -46,8 +46,8 @@ namespace Assets
                     currentConnectionForInspector = value;
                     if (currentConnectionForInspector)
                     {
-                        currentConnectionForInspector.SplitBody = this.GetComponent<Rigidbody2D>();
-                        currentConnectionForInspector.SplitRatio = DistanceAlongConnection;
+                        //currentConnectionForInspector.SplitBody = GetComponent<Rigidbody2D>();
+                        //currentConnectionForInspector.SplitRatio = DistanceAlongConnection;
                     }
                 }
             }
@@ -58,7 +58,7 @@ namespace Assets
             set
             {
                 distanceAlongConnectionForInspector = Math.Max(Math.Min(1, value), 0);
-                currentConnectionForInspector.SplitRatio = distanceAlongConnectionForInspector;
+                //currentConnectionForInspector.SplitRatio = distanceAlongConnectionForInspector;
             }
         }
 
@@ -89,7 +89,7 @@ namespace Assets
             stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
 
             topologyEquator = new GraphTopologyEquator(goalTopology, originGoalVertex);
-            this.ForceUpdateBindings();
+            ForceUpdateBindings();
         }
 
         private void Start()
@@ -100,7 +100,7 @@ namespace Assets
         public void CheckIfWin()
         {
             return;
-            if (this.MatchesTopologyTarget(originActual))
+            if (MatchesTopologyTarget(originActual))
             {
                 Debug.Log("yes win");
                 CustomEventSystem.instance.Dispatch(EVENT_TYPE.WIN, this);
@@ -113,7 +113,7 @@ namespace Assets
 
         private bool MatchesTopologyTarget(NodeBehavior originVertexInActual)
         {
-            return this.topologyEquator.GraphMatches(graph, originVertexInActual);
+            return topologyEquator.GraphMatches(graph, originVertexInActual);
         }
 
         private bool defaultPositioning = true;
@@ -123,7 +123,7 @@ namespace Assets
 
             if (defaultPositioning)
             {
-                //var myDistance = Math.Min(distanceAlongConnectionForInspector, 1);
+                var myDistance = Math.Min(distanceAlongConnectionForInspector, 1);
 
                 if (currentConnectionForInspector)
                 {
@@ -131,8 +131,8 @@ namespace Assets
                     Vector2 a = lastNode.transform.position;
                     var diff = b - a;
 
-                    //var scaledDiff = diff * myDistance;
-                    //transform.position = a + scaledDiff;
+                    var scaledDiff = diff * myDistance;
+                    transform.position = a + scaledDiff;
                     transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
                     switch (whichSide)
                     {
@@ -147,21 +147,20 @@ namespace Assets
 
                 if (!Application.isPlaying)
                 {
-                    this.ForceUpdateBindings();
+                    ForceUpdateBindings();
                 }
             }
         }
 
         private void ForceUpdateBindings()
         {
-            Debug.Log("attempt tuptds");
-            this.CurrentConnection = this.currentConnectionForInspector;
-            this.DistanceAlongConnection = this.distanceAlongConnectionForInspector;
+            CurrentConnection = currentConnectionForInspector;
+            DistanceAlongConnection = distanceAlongConnectionForInspector;
         }
 
         async void myUpdate()
         {
-            if(stateMachine == null)
+            if (stateMachine == null)
             {
                 return;
             }

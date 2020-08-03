@@ -40,13 +40,13 @@ namespace Assets
             }
         }
 
-        public Rigidbody2D _connectionSplitBodyForInspector = null;
+        private Rigidbody2D _connectionSplitBodyForInspector = null;
         public Rigidbody2D SplitBody
         {
             get => _connectionSplitBodyForInspector;
             set
             {
-                _connectionSplitBodyForInspector = value;
+                _connectionSplitBodyForInspector = null;
                 UpdateObjectConnections();
             }
         }
@@ -78,7 +78,7 @@ namespace Assets
         {
             if (Source != null && Target != null)
             {
-                if(SplitBody == null)
+                if(SplitBody == null || !SplitBody)
                 {
                     connectionRenderer.Source = Source.gameObject;
                     connectionRenderer.Target = Target.gameObject;
@@ -86,6 +86,7 @@ namespace Assets
                 }
                 else
                 {
+                    Debug.LogError("spliot bodyu not null");
                     connectionRendererWhenSplit.gameObject.SetActive(true);
 
                     connectionRenderer.Source = Source.gameObject;
