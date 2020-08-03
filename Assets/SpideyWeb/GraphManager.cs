@@ -88,6 +88,12 @@ public class GraphManager : MonoBehaviour
         return behavior;
     }
 
+    public void DestroyConnection(Connection connection)
+    {
+        Graph.RemoveEdge(connection);
+        Destroy(connection.gameObject);
+    }
+
     public Connection CreatRandomConnection()
     {
         var verteces = Graph.Vertices.ToList();

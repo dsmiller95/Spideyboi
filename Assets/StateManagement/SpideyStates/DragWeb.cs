@@ -1,4 +1,5 @@
 ﻿using QuikGraph;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -20,14 +21,14 @@ namespace Assets.SpideyActions.SpideyStates
             crawly.draggingLineRenderer.Source = crawly.gameObject;
             crawly.draggingLineRenderer.Target = currentNode.gameObject;
 
-            crawly.currentDraggingConnection = currentNode;
+            crawly.currentDraggingNode = currentNode;
 
             crawly.draggingLineRenderer.OnCollided = (otherCollider) =>
             {
                 if (IsBreakingCollision(otherCollider, crawly))
                 {
                     Debug.Log("Broke!");
-                    //crawly.draggingLineRenderer.gameObject.SetActive(false);
+                    crawly.draggingLineRenderer.gameObject.SetActive(false);
                 }
             };
 
@@ -38,34 +39,30 @@ namespace Assets.SpideyActions.SpideyStates
         {
             var connection = other.GetComponentInParent<Connection>();
             var node = other.GetComponentInParent<NodeBehavior>();
+
             if (connection == null && node == null)
             {
                 return true;
             }
             if(connection != null)
             {
-                // will only break if colliding with a connection not connected to the origin node, or one we are currently on
-                if (connection == spidey.currentConnectionForInspector)
+                var exceptedConnections = new List<Connection>() { spidey.CurrentConnection };
+                exceptedConnections.AddRange(spidey.graph.AdjacentEdges(spidey.currentDraggingNode));
+                if (spidey.distanceAlongConnectionForInspector >= .9)
                 {
-                    return false;
+                    var otherNode = spidey.CurrentConnection.GetOtherVertex(spidey.lastNode);
+                    exceptedConnections.AddRange(spidey.graph.AdjacentEdges(otherNode));
                 }
-                var connectionPair = connection.ToVertexPair();
-                if (connectionPair.Source == spidey.currentDraggingConnection || connectionPair.Target == spidey.currentDraggingConnection)
-                {
-                    return false;
-                }
+                return !exceptedConnections.Contains(connection);
             }
             if(node != null)
             {
-                if(node == spidey.currentDraggingConnection)
-                {
-                    return false;
-                }
-                var connectionPair = spidey.currentConnectionForInspector.ToVertexPair();
-                if (connectionPair.Source == node || connectionPair.Target == node)
-                {
-                    return false;
-                }
+                var exceptedNodes = new List<NodeBehavior>() { spidey.currentDraggingNode };
+                var connectionPair = spidey.CurrentConnection.ToVertexPair();
+                exceptedNodes.Add(connectionPair.Source);
+                exceptedNodes.Add(connectionPair.Target);
+
+                return !exceptedNodes.Contains(node);
             }
             return true;
         }

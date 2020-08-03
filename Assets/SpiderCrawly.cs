@@ -29,7 +29,7 @@ namespace Assets
         [Range(0, 1)]
         public float distanceAlongConnectionForInspector = 0f;
 
-        public NodeBehavior currentDraggingConnection;
+        public NodeBehavior currentDraggingNode;
         public ConnectionRenderer draggingLineRenderer;
 
         public Connection CurrentConnection
@@ -245,5 +245,7 @@ namespace Assets
 
             return otherConnections.FirstOrDefault() ?? currentConnectionForInspector;
         }
+
+
     }
 }

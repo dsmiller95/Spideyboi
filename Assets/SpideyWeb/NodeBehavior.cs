@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Assets
@@ -41,32 +40,33 @@ namespace Assets
         private void FixedUpdate()
         {
             var myPos = transform.position;
-            var allOtherNodePositionsDiffs = transform.parent.gameObject
+            var allOtherNodes = transform.parent.gameObject
                 .GetComponentsInChildren<NodeBehavior>()
                 .Where(x => x != this)
-                .Select(x => x.transform.position - myPos);
+                .Select(x => x.GetComponent<Rigidbody2D>());
 
-            var repulsionForce = GetInverseSquaredForce(allOtherNodePositionsDiffs, repulsionConstant);
+            var repulsionForce = GetInverseSquaredForce(allOtherNodes, repulsionConstant, myPos);
 
             var body = GetComponent<Rigidbody2D>();
             Vector2 force = repulsionForce;
             body.AddForce(force, ForceMode2D.Force);
         }
 
-        private Vector3 GetInverseSquaredForce(IEnumerable<Vector3> positionDelta, float attractionConstant)
+        private Vector3 GetInverseSquaredForce(IEnumerable<Rigidbody2D> bodies, float attractionConstant, Vector3 originPoint)
         {
-            return GetForce(positionDelta, diff => attractionConstant / diff.sqrMagnitude);
+            return GetForce(bodies, (diff, body) => attractionConstant * body.mass / diff.sqrMagnitude, originPoint);
         }
 
-        private Vector3 GetSpringForce(IEnumerable<Vector3> positionDelta, float springConstant, float defaultSpringLength)
+        private Vector3 GetForce(IEnumerable<Rigidbody2D> bodies, Func<Vector3, Rigidbody2D, float> forceCalc, Vector3 originPoint)
         {
-            return GetForce(positionDelta, diff => springConstant * (diff.magnitude - defaultSpringLength));
-        }
-
-        private Vector3 GetForce(IEnumerable<Vector3> positionDeltas, Func<Vector3, float> forceCalc)
-        {
-            return positionDeltas
-                .Select(vectorDiff => vectorDiff.normalized * forceCalc(vectorDiff))
+            return bodies
+                .Select(x =>
+                    new
+                    {
+                        posDiff = (Vector3)x.position - originPoint,
+                        body = x
+                    })
+                .Select(data => data.posDiff.normalized * forceCalc(data.posDiff, data.body))
                 .Aggregate((force1, force2) => force1 + force2);
         }
     }

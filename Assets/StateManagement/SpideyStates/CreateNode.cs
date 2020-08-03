@@ -1,4 +1,5 @@
 ﻿using QuikGraph;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -34,11 +35,30 @@ namespace Assets.SpideyActions.SpideyStates
             connection.targetDistance = graph.defaultConnectionLength;
 
             var spring = connection.GetComponentInChildren<RealSpring>();
-            spring.springConstant /= 5;
+
+            connection.connectionRenderer.GetComponent<Collider2D>().isTrigger = true;
+            connection.connectionRenderer.OnCollided = (otherCollider) =>
+            {
+                if (IsBreakingCollision(otherCollider, crawly))
+                {
+                    Debug.Log("Broke!");
+                    crawly.graphManager.DestroyConnection(connection);
+                }
+            };
+
+
+            spring.springConstant /= 2;
 
             var totalDelay = 700;
             var lengthSteps = 10;
-            await Task.Delay(totalDelay/2);
+            await Task.Delay(totalDelay / 2);
+            if (connection != null)
+            {
+                //spring.springConstant *= 5;
+                rigidBody.mass = rigidBody.mass * 20;
+                rigidBody.velocity /= 30;
+            }
+
             await Task.Delay(totalDelay / 2);
 
 
@@ -47,12 +67,53 @@ namespace Assets.SpideyActions.SpideyStates
             //    await Task.Delay(totalDelay / lengthSteps);
             //    connection.targetDistance = Mathf.Lerp(graph.initialConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
             //}
+            if (connection != null)
+            {
+                // connection might have gotten destroyed
+                connection.connectionRenderer.GetComponent<Collider2D>().isTrigger = false;
+                connection.connectionRenderer.OnCollided = null;
 
-            spring.springConstant *= 5;
-            rigidBody.mass = rigidBody.mass * 20;
-            rigidBody.velocity /= 30;
+                spring.springConstant *= 2;
+                //rigidBody.mass = rigidBody.mass * 20;
+                //rigidBody.velocity /= 30;
+            }
 
             return returnToOnsuccess;
+        }
+        private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)
+        {
+            var connection = other.GetComponentInParent<Connection>();
+            var node = other.GetComponentInParent<NodeBehavior>();
+
+            if (connection == null && node == null)
+            {
+                return true;
+            }
+            if (connection != null)
+            {
+                var exceptedConnections = new List<Connection>() { spidey.CurrentConnection };
+                //exceptedConnections.AddRange(spidey.graph.AdjacentEdges(spidey.currentDraggingNode));
+                if (spidey.distanceAlongConnectionForInspector >= .9)
+                {
+                    var otherNode = spidey.CurrentConnection.GetOtherVertex(spidey.lastNode);
+                    exceptedConnections.AddRange(spidey.graph.AdjacentEdges(otherNode));
+                }
+                else if (spidey.DistanceAlongConnection <= .1)
+                {
+                    exceptedConnections.AddRange(spidey.graph.AdjacentEdges(spidey.lastNode));
+                }
+                return !exceptedConnections.Contains(connection);
+            }
+            if (node != null)
+            {
+                var exceptedNodes = new List<NodeBehavior>() { };
+                var connectionPair = spidey.CurrentConnection.ToVertexPair();
+                exceptedNodes.Add(connectionPair.Source);
+                exceptedNodes.Add(connectionPair.Target);
+
+                return !exceptedNodes.Contains(node);
+            }
+            return true;
         }
 
 

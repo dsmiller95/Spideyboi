@@ -25,7 +25,7 @@ namespace Assets.SpideyActions.SpideyStates
             var lastNode = crawly.lastNode;
             var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
 
-            var otherNode = crawly.currentDraggingConnection;
+            var otherNode = crawly.currentDraggingNode;
             if(otherNode == null)
             {
                 Debug.LogError("Error: attempted to attach a connection when none was dragged");
