@@ -1,7 +1,4 @@
-﻿using Assets.SpideyActions;
-using System.Threading.Tasks;
-
-namespace Assets.SpideyActions
+﻿namespace Assets.SpideyActions
 {
     /// <summary>
     /// A state machine which supports asynchronous operations
@@ -9,12 +6,12 @@ namespace Assets.SpideyActions
     ///     until the long running task completes
     /// </summary>
     /// <typeparam name="ParamType">The type of object which all state handlers will pull their data from</typeparam>
-    public class AsyncStateMachine<ParamType>
+    public class StateMachine<ParamType>
     {
 
         private GenericStateHandler<ParamType> state;
 
-        public AsyncStateMachine(GenericStateHandler<ParamType> initalState)
+        public StateMachine(GenericStateHandler<ParamType> initalState)
         {
             state = initalState;
         }
@@ -32,7 +29,7 @@ namespace Assets.SpideyActions
         /// </summary>
         /// <param name="updateParam">The data</param>
         /// <returns>true if the state machine executed a step or attempted to execute a step</returns>
-        public async Task<bool> update(ParamType updateParam)
+        public bool update(ParamType updateParam)
         {
             lock (this)
             {
@@ -44,7 +41,7 @@ namespace Assets.SpideyActions
             }
 
             var updateAction = state;
-            var newState = await updateAction.HandleState(updateParam);
+            var newState = updateAction.HandleState(updateParam);
 
             if (!newState.Equals(state))
             {

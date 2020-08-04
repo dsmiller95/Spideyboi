@@ -1,5 +1,6 @@
 ﻿using QuikGraph;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
@@ -12,13 +13,13 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
-        public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly crawly)
         {
-            int totalDelay = (int)(700 / Time.timeScale);
+            var totalDelay = .7f;
             if (!crawly.draggingLineRenderer.gameObject.activeInHierarchy)
             {
                 // it broke!
-                return new Waiting(this.returnToOnsuccess, totalDelay / 1000f);
+                return new Waiting(returnToOnsuccess, totalDelay);
             }
 
             var graph = crawly.graphManager;
@@ -26,7 +27,7 @@ namespace Assets.SpideyActions.SpideyStates
             var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
 
             var otherNode = crawly.currentDraggingNode;
-            if(otherNode == null)
+            if (otherNode == null)
             {
                 Debug.LogError("Error: attempted to attach a connection when none was dragged");
                 return returnToOnsuccess;
@@ -38,21 +39,28 @@ namespace Assets.SpideyActions.SpideyStates
 
             crawly.draggingLineRenderer.InstantClearConnection();
 
+            var actionSeries = new List<(float, Action)>();
+
             var lengthSteps = 10;
             for (var i = 0; i <= lengthSteps; i++)
             {
-                await Task.Delay(totalDelay / lengthSteps);
-                connection.targetDistance = Mathf.Lerp(currentConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
+                var targetDistance = Mathf.Lerp(currentConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
+                actionSeries.Add((totalDelay / lengthSteps, () =>
+                {
+                    connection.targetDistance = targetDistance;
+                }
+                ));
+                //connection.targetDistance = Mathf.Lerp(currentConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
             }
 
-            crawly.extraIgnoreConnections.Add(connection);
-            //var connectionsSpring = connection.GetComponentInChildren<RealSpring>();
-            //if(connectionsSpring != null)
-            //{
-            //    connectionsSpring.ImpulseOnNext(1);
-            //}
+            actionSeries.Add((0, () =>
+            {
+                crawly.extraIgnoreConnections.Add(connection);
+            }
+            ));
 
-            return returnToOnsuccess;
+            return new Waiting(returnToOnsuccess, totalDelay / lengthSteps, actionSeries);
+
         }
 
         public void TransitionIntoState(SpiderCrawly data)

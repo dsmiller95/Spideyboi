@@ -1,6 +1,6 @@
 ﻿using QuikGraph;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
@@ -13,7 +13,7 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
-        public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly crawly)
         {
             var graph = crawly.graphManager;
             var lastNode = crawly.lastNode;
@@ -49,36 +49,43 @@ namespace Assets.SpideyActions.SpideyStates
 
             spring.springConstant /= 2;
 
-            var totalDelay = (int)(700 / Time.timeScale);
+            var totalDelay = .7f;
             var lengthSteps = 10;
-            await Task.Delay(totalDelay / 2);
-            if (connection != null)
+
+            var actionSeries = new List<(float, Action)>();
+
+            actionSeries.Add((totalDelay / 2, () =>
             {
-                //spring.springConstant *= 5;
-                rigidBody.mass = rigidBody.mass * 20;
-                rigidBody.velocity /= 30;
+                Debug.Log($"Action one {Time.time}");
+                if (connection != null)
+                {
+                    //spring.springConstant *= 5;
+                    rigidBody.mass = rigidBody.mass * 20;
+                    rigidBody.velocity /= 30;
+                }
             }
+            ));
 
-            await Task.Delay(totalDelay / 2);
 
-
-            //for (var i = 0; i <= lengthSteps; i++)
-            //{
-            //    await Task.Delay(totalDelay / lengthSteps);
-            //    connection.targetDistance = Mathf.Lerp(graph.initialConnectionLength, graph.defaultConnectionLength, (float)i / lengthSteps);
-            //}
-            if (connection != null)
+            actionSeries.Add((0, () =>
             {
-                // connection might have gotten destroyed
-                connection.connectionRenderer.GetComponent<Collider2D>().isTrigger = false;
-                connection.connectionRenderer.OnCollided = null;
+                Debug.Log($"Action two {Time.time}");
+                if (connection != null)
+                {
+                    // connection might have gotten destroyed
+                    connection.connectionRenderer.GetComponent<Collider2D>().isTrigger = false;
+                    connection.connectionRenderer.OnCollided = null;
 
-                spring.springConstant *= 2;
-                //rigidBody.mass = rigidBody.mass * 20;
-                //rigidBody.velocity /= 30;
+                    spring.springConstant *= 2;
+                    //rigidBody.mass = rigidBody.mass * 20;
+                    //rigidBody.velocity /= 30;
+                }
+
             }
+            ));
 
-            return returnToOnsuccess;
+            Debug.Log($"Action zero {Time.time}");
+            return new Waiting(returnToOnsuccess, totalDelay / 2, actionSeries);
         }
         private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)
         {

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Assets.SpideyActions.SpideyStates
+﻿namespace Assets.SpideyActions.SpideyStates
 {
     public class WaitForValid : GenericStateHandler<SpiderCrawly>
     {
@@ -10,13 +8,13 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToState = returnToState;
         }
 
-        public Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly data)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly data)
         {
             if (data.lastNode == null || data.currentConnectionForInspector == null)
             {
-                return Task.FromResult<GenericStateHandler<SpiderCrawly>>(this);
+                return this;
             }
-            return Task.FromResult(returnToState);
+            return returnToState;
         }
 
         public void TransitionIntoState(SpiderCrawly data)

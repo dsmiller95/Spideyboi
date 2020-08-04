@@ -1,8 +1,4 @@
-﻿using QuikGraph;
-using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
-
-namespace Assets.SpideyActions.SpideyStates
+﻿namespace Assets.SpideyActions.SpideyStates
 {
     public class SwitchSide : GenericStateHandler<SpiderCrawly>
     {
@@ -12,7 +8,7 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
-        public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly crawly)
         {
             crawly.SwitchSide();
             return returnToOnsuccess;

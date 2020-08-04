@@ -1,5 +1,4 @@
 ﻿using QuikGraph;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
@@ -7,11 +6,11 @@ namespace Assets.SpideyActions.SpideyStates
     public class Moving : GenericStateHandler<SpiderCrawly>
     {
 
-        public Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly data)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly data)
         {
             if (data.lastNode == null || data.CurrentConnection == null)
             {
-                return Task.FromResult<GenericStateHandler<SpiderCrawly>>(new WaitForValid(this));
+                return new WaitForValid(this);
             }
             if (data.isMoving)
             {
@@ -20,7 +19,7 @@ namespace Assets.SpideyActions.SpideyStates
                     if (winZone.TryTriggerwin(data))
                     {
                         data.StopMoving();
-                        return Task.FromResult<GenericStateHandler<SpiderCrawly>>(this);
+                        return this;
                     }
                 }
 
@@ -29,9 +28,9 @@ namespace Assets.SpideyActions.SpideyStates
             if (data.DistanceAlongConnection >= 1)
             {
                 var nextState = data.GetNextAction();
-                return Task.FromResult(nextState.StateHandlerFactory(this));
+                return nextState.StateHandlerFactory(this);
             }
-            return Task.FromResult<GenericStateHandler<SpiderCrawly>>(this);
+            return this;
         }
 
         public void TransitionIntoState(SpiderCrawly data)

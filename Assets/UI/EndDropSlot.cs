@@ -1,11 +1,5 @@
 ﻿using Assets.UI.Draggable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Assets.UI
 {
@@ -24,7 +18,7 @@ namespace Assets.UI
 
             newSlot.transform.position = transform.position;
 
-            this.transform.position += (Vector3)translateAmount;
+            transform.position += (Vector3)translateAmount;
         }
     }
 }

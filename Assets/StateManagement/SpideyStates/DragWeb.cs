@@ -1,6 +1,5 @@
 ﻿using QuikGraph;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
@@ -13,7 +12,7 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
-        public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly crawly)
         {
             var lastNode = crawly.lastNode;
             var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
@@ -47,7 +46,7 @@ namespace Assets.SpideyActions.SpideyStates
             {
                 return true;
             }
-            if(connection != null)
+            if (connection != null)
             {
                 var exceptedConnections = new List<Connection>() { spidey.CurrentConnection };
                 exceptedConnections.AddRange(spidey.graph.AdjacentEdges(spidey.currentDraggingNode));
@@ -58,7 +57,7 @@ namespace Assets.SpideyActions.SpideyStates
                 }
                 return !exceptedConnections.Contains(connection);
             }
-            if(node != null)
+            if (node != null)
             {
                 var exceptedNodes = new List<NodeBehavior>() { spidey.currentDraggingNode };
                 var connectionPair = spidey.CurrentConnection.ToVertexPair();

@@ -75,7 +75,7 @@ namespace Assets
 
         public IList<WinZone> winZones;
 
-        private AsyncStateMachine<SpiderCrawly> stateMachine;
+        private StateMachine<SpiderCrawly> stateMachine;
 
 
         public BasicConnection[] goalTopology;
@@ -85,7 +85,7 @@ namespace Assets
         private void Awake()
         {
             extraIgnoreConnections = new List<Connection>();
-            stateMachine = new AsyncStateMachine<SpiderCrawly>(new Moving());
+            stateMachine = new StateMachine<SpiderCrawly>(new Moving());
 
             ForceUpdateBindings();
         }
@@ -138,7 +138,7 @@ namespace Assets
             DistanceAlongConnection = distanceAlongConnectionForInspector;
         }
 
-        async void myUpdate()
+        void myUpdate()
         {
             if (stateMachine == null)
             {
@@ -146,7 +146,7 @@ namespace Assets
             }
             try
             {
-                await stateMachine.update(this);
+                stateMachine.update(this);
             }
             catch (System.Exception e)
             {

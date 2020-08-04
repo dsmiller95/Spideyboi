@@ -1,7 +1,4 @@
 ﻿using QuikGraph;
-using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 
 namespace Assets.SpideyActions.SpideyStates
 {
@@ -13,7 +10,7 @@ namespace Assets.SpideyActions.SpideyStates
             this.returnToOnsuccess = returnToOnsuccess;
         }
 
-        public async Task<GenericStateHandler<SpiderCrawly>> HandleState(SpiderCrawly crawly)
+        public GenericStateHandler<SpiderCrawly> HandleState(SpiderCrawly crawly)
         {
             var lastNode = crawly.lastNode;
             var currentNode = crawly.currentConnectionForInspector.GetOtherVertex(lastNode);
@@ -21,8 +18,8 @@ namespace Assets.SpideyActions.SpideyStates
             crawly.lastNode = currentNode;
             crawly.SwitchSide();
             crawly.distanceAlongConnectionForInspector = 0;
-            await Task.Delay((int)(200 / Time.timeScale));
-            return returnToOnsuccess;
+
+            return new Waiting(returnToOnsuccess, .2f);
         }
 
 
