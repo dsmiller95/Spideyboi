@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -313,6 +313,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5747940566555171751, guid: f0d6fcd58f3865b469e7c731d60855c8,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 993716652}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d6fcd58f3865b469e7c731d60855c8, type: 3}
 --- !u!114 &249953360 stripped
@@ -849,6 +854,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1326023270}
     m_Modifications:
+    - target: {fileID: 4386179901963407665, guid: e41d2130435324f43bf6f672baca7221,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 993716652}
     - target: {fileID: 6319567243744566725, guid: e41d2130435324f43bf6f672baca7221,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1287,6 +1297,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1148581370}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &993716652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5382632159590404877, guid: eae41a2ef8307344794876890878b362,
+    type: 3}
+  m_PrefabInstance: {fileID: 1148581370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519c55de0aa208541a6b74448ee9ed22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1148581370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1383,6 +1405,11 @@ PrefabInstance:
         type: 3}
       propertyPath: orthographic size
       value: 15.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6983351178546345597, guid: eae41a2ef8307344794876890878b362,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26.35498
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eae41a2ef8307344794876890878b362, type: 3}
@@ -1771,6 +1798,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5242930127687657134, guid: 9687d71ef146ec443ae21488f69c3e4d,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 993716652}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9687d71ef146ec443ae21488f69c3e4d, type: 3}
 --- !u!114 &1364837295 stripped
@@ -1792,6 +1824,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 927885211}
     m_Modifications:
+    - target: {fileID: 2957440033348925280, guid: faad596bc25b8eb41bd1b4c65990716e,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 993716652}
     - target: {fileID: 4784999320562858900, guid: faad596bc25b8eb41bd1b4c65990716e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2593,6 +2630,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce891112bd3abf54d9a4c0a9f36eb95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1992059427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6219629436001629151, guid: eae41a2ef8307344794876890878b362,
+    type: 3}
+  m_PrefabInstance: {fileID: 1148581370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1992059432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992059427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1001 &2069995790
 PrefabInstance:
   m_ObjectHideFlags: 0

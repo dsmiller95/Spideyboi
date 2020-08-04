@@ -238,6 +238,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5242930127687657134, guid: 9687d71ef146ec443ae21488f69c3e4d,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 6219629435499645862}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9687d71ef146ec443ae21488f69c3e4d, type: 3}
 --- !u!114 &112390049 stripped
@@ -1244,6 +1249,11 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 16.97
       objectReference: {fileID: 0}
+    - target: {fileID: 6983351178546345597, guid: eae41a2ef8307344794876890878b362,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26.35498
+      objectReference: {fileID: 0}
     - target: {fileID: 7104688241817228969, guid: eae41a2ef8307344794876890878b362,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1277,3 +1287,52 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6219629435499645859}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6219629435499645861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6219629436001629151, guid: eae41a2ef8307344794876890878b362,
+    type: 3}
+  m_PrefabInstance: {fileID: 6219629435499645859}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6219629435499645862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5382632159590404877, guid: eae41a2ef8307344794876890878b362,
+    type: 3}
+  m_PrefabInstance: {fileID: 6219629435499645859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519c55de0aa208541a6b74448ee9ed22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6219629435499645863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219629435499645861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
