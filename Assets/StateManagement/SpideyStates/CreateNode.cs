@@ -56,7 +56,6 @@ namespace Assets.SpideyActions.SpideyStates
 
             actionSeries.Add((totalDelay / 2, () =>
             {
-                Debug.Log($"Action one {Time.time}");
                 if (connection != null)
                 {
                     //spring.springConstant *= 5;
@@ -69,7 +68,6 @@ namespace Assets.SpideyActions.SpideyStates
 
             actionSeries.Add((0, () =>
             {
-                Debug.Log($"Action two {Time.time}");
                 if (connection != null)
                 {
                     // connection might have gotten destroyed
@@ -84,7 +82,6 @@ namespace Assets.SpideyActions.SpideyStates
             }
             ));
 
-            Debug.Log($"Action zero {Time.time}");
             return new Waiting(returnToOnsuccess, totalDelay / 2, actionSeries);
         }
         private bool IsBreakingCollision(Collider2D other, SpiderCrawly spidey)

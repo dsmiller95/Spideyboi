@@ -402,6 +402,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1891972965}
     m_Modifications:
+    - target: {fileID: 2957440033348925280, guid: faad596bc25b8eb41bd1b4c65990716e,
+        type: 3}
+      propertyPath: parentDragZone
+      value: 
+      objectReference: {fileID: 6219629435499645868}
     - target: {fileID: 4784999320562858900, guid: faad596bc25b8eb41bd1b4c65990716e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3619,3 +3624,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6219629435499645859}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6219629435499645868 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5382632159590404877, guid: eae41a2ef8307344794876890878b362,
+    type: 3}
+  m_PrefabInstance: {fileID: 6219629435499645859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519c55de0aa208541a6b74448ee9ed22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
